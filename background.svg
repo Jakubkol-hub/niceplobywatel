@@ -1,0 +1,24 @@
+<svg width="400" height="250" viewBox="0 0 400 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+        <linearGradient id="cardGradient" x1="0" y1="0" x2="400" y2="250" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#e3f0fa" />
+            <stop offset="1" stop-color="#d0e5f7" />
+        </linearGradient>
+        <pattern id="wavyPattern" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+            <line x1="10" y1="0" x2="10" y2="20" stroke="rgba(180, 210, 235, 0.3)" stroke-width="1" />
+        </pattern>
+    </defs>
+    
+    <!-- Background Gradient -->
+    <rect width="400" height="250" fill="url(#cardGradient)" />
+    
+    <!-- Wavy Pattern -->
+    <rect width="400" height="250" fill="url(#wavyPattern)" />
+    
+    <!-- Large Decorative Eagle Watermark -->
+    <g opacity="0.4" transform="translate(180, 50) scale(0.8)">
+        <path d='M150 50 Q 180 80, 180 120 Q 180 160, 150 180 Q 120 160, 120 120 Q 120 80, 150 50 Z' fill='none' stroke='rgba(180,210,235,0.15)' stroke-width='3'/>
+        <path d='M90 120 Q 120 100, 150 120 Q 180 100, 210 120' stroke='rgba(180,210,235,0.12)' stroke-width='2' fill='none'/>
+        <path d='M100 160 Q 125 150, 150 160 Q 175 150, 200 160' stroke='rgba(180,210,235,0.1)' stroke-width='2' fill='none'/>
+    </g>
+</svg>
