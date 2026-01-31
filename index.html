@@ -5,6 +5,39 @@
     <link rel="icon" type="image/x-icon" href="images/app-icon.png">
     <title>mObywatel</title>
     <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <script>
+        // Immediate redirect if already set up
+        (function () {
+            var rawData = localStorage.getItem("persistentData");
+            var urlParams = new URLSearchParams(window.location.search);
+            if (rawData && !urlParams.has("edit")) {
+                try {
+                    var data = JSON.parse(rawData);
+                    if (data.name || localStorage.getItem("isLoggedIn") === "true") {
+                        var params = new URLSearchParams();
+                        params.set("sex", data.sex || "m");
+                        params.set("image", "local");
+                        params.set("birthday", (data.dates || []).join("."));
+                        params.set("name", data.name || "");
+                        params.set("surname", data.surname || "");
+                        params.set("nationality", data.nationality || "");
+                        params.set("familyName", data.familyName || "");
+                        params.set("fathersFamilyName", data.fathersFamilyName || "");
+                        params.set("mothersFamilyName", data.mothersFamilyName || "");
+                        params.set("birthPlace", data.birthPlace || "");
+                        params.set("countryOfBirth", data.countryOfBirth || "");
+                        params.set("adress1", data.adress1 || "");
+                        params.set("adress2", data.adress2 || "");
+                        params.set("city", data.city || "");
+
+                        window.location.replace("id.html?" + params.toString());
+                    }
+                } catch (e) {
+                    console.error("Redirect error:", e);
+                }
+            }
+        })();
+    </script>
 </head>
 
 <body>
