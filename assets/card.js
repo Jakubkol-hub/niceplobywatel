@@ -108,11 +108,11 @@ if (imageUrl === "local" || !imageUrl) {
 
 document.querySelector(".id_own_image").style.backgroundImage = `url(${imageUrl})`;
 
-var birthday = data['birthday'];
+var birthday = data['birthday'] || "01.01.2000";
 var birthdaySplit = birthday.split(".");
-var day = parseInt(birthdaySplit[0]);
-var month = parseInt(birthdaySplit[1]);
-var year = parseInt(birthdaySplit[2]);
+var day = parseInt(birthdaySplit[0]) || 1;
+var month = parseInt(birthdaySplit[1]) || 1;
+var year = parseInt(birthdaySplit[2]) || 2000;
 
 var birthdayDate = new Date();
 birthdayDate.setDate(day)
@@ -121,7 +121,7 @@ birthdayDate.setFullYear(year)
 
 birthday = birthdayDate.toLocaleDateString("pl-PL", options);
 
-var sex = data['sex'];
+var sex = data['sex'] || "m";
 
 if (sex === "m") {
   sex = "Mężczyzna"
@@ -129,15 +129,15 @@ if (sex === "m") {
   sex = "Kobieta"
 }
 
-setData("name", data['name'].toUpperCase());
-setData("surname", data['surname'].toUpperCase());
-setData("nationality", data['nationality'].toUpperCase());
+setData("name", (data['name'] || "").toUpperCase());
+setData("surname", (data['surname'] || "").toUpperCase());
+setData("nationality", (data['nationality'] || "").toUpperCase());
 setData("birthday", birthday);
-setData("familyName", data['familyName']);
+setData("familyName", data['familyName'] || "");
 setData("sex", sex);
-setData("fathersFamilyName", data['fathersFamilyName']);
-setData("mothersFamilyName", data['mothersFamilyName']);
-setData("birthPlace", data['birthPlace']);
+setData("fathersFamilyName", data['fathersFamilyName'] || "");
+setData("mothersFamilyName", data['mothersFamilyName'] || "");
+setData("birthPlace", data['birthPlace'] || "");
 setData("countryOfBirth", data['countryOfBirth']);
 setData("adress", "ul. " + data['adress1'] + "<br>" + data['adress2'] + " " + data['city']);
 

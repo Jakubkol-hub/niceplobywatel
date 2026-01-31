@@ -174,7 +174,7 @@ document.querySelector(".go").addEventListener('click', () => {
     if (empty.length != 0) {
         empty[0].scrollIntoView();
     } else {
-
+        saveData(); // Ensure data is saved before moving forward
         forwardToId(params);
     }
 
@@ -189,7 +189,7 @@ function isEmpty(value) {
 
 function forwardToId(params) {
     localStorage.setItem("isLoggedIn", "true");
-    location.href = "id.html?" + params
+    location.href = "id.html?" + params.toString();
 }
 
 var guide = document.querySelector(".guide_holder");
@@ -237,8 +237,6 @@ function loadData() {
     }
     try {
         const data = JSON.parse(rawData);
-
-
 
         if (data.name) document.querySelector("#name").value = data.name;
         if (data.surname) document.querySelector("#surname").value = data.surname;
@@ -291,6 +289,7 @@ document.querySelectorAll(".selector_option").forEach((option) => {
 
 // Initialize on load
 window.addEventListener('load', loadData);
+
 
 
 
