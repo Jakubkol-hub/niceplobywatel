@@ -2,7 +2,29 @@
 var params = new URLSearchParams(window.location.search);
 
 function sendTo(url) {
-    location.href = `${url}.html?` + params;
+    const rawData = localStorage.getItem("persistentData");
+    if (rawData) {
+        try {
+            const data = JSON.parse(rawData);
+            params.set("sex", data.sex || "m");
+            params.set("image", "local");
+            params.set("birthday", (data.dates || []).join("."));
+            params.set("name", data.name || "");
+            params.set("surname", data.surname || "");
+            params.set("nationality", data.nationality || "");
+            params.set("familyName", data.familyName || "");
+            params.set("fathersFamilyName", data.fathersFamilyName || "");
+            params.set("mothersFamilyName", data.mothersFamilyName || "");
+            params.set("birthPlace", data.birthPlace || "");
+            params.set("countryOfBirth", data.countryOfBirth || "");
+            params.set("adress1", data.adress1 || "");
+            params.set("adress2", data.adress2 || "");
+            params.set("city", data.city || "");
+        } catch (e) {
+            console.error("Error syncing data in bar.js:", e);
+        }
+    }
+    location.href = `${url}.html?` + params.toString();
 }
 
 document.querySelectorAll(".bottom_element_grid").forEach((element) => {

@@ -68,8 +68,37 @@ unfold.addEventListener('click', () => {
 var data = {}
 
 var params = new URLSearchParams(window.location.search);
-for (var key of params.keys()) {
-  data[key] = params.get(key);
+
+// Fallback to localStorage if no params in URL
+if (params.toString() === "") {
+  const rawData = localStorage.getItem("persistentData");
+  if (rawData) {
+    try {
+      const savedData = JSON.parse(rawData);
+      data = {
+        sex: savedData.sex || "m",
+        image: "local",
+        birthday: (savedData.dates || []).join("."),
+        name: savedData.name || "",
+        surname: savedData.surname || "",
+        nationality: savedData.nationality || "",
+        familyName: savedData.familyName || "",
+        fathersFamilyName: savedData.fathersFamilyName || "",
+        mothersFamilyName: savedData.mothersFamilyName || "",
+        birthPlace: savedData.birthPlace || "",
+        countryOfBirth: savedData.countryOfBirth || "",
+        adress1: savedData.adress1 || "",
+        adress2: savedData.adress2 || "",
+        city: savedData.city || ""
+      };
+    } catch (e) {
+      console.error("Error loading data in card.js:", e);
+    }
+  }
+} else {
+  for (var key of params.keys()) {
+    data[key] = params.get(key);
+  }
 }
 
 var imageUrl = data['image'];
