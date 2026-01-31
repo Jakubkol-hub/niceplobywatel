@@ -2,7 +2,7 @@
   "name": "mObywatel (mdowodzik)",
   "short_name": "mObywatel",
   "description": "Digital identification app recreation.",
-  "start_url": "./index.html",
+  "start_url": "./id.html",
   "display": "standalone",
   "background_color": "#f5f6fb",
   "theme_color": "#f5f6fb",

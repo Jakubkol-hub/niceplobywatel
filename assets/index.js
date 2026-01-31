@@ -238,7 +238,28 @@ function loadData() {
     try {
         var data = JSON.parse(rawData);
 
-        if (data.name) document.querySelector("#name").value = data.name;
+        // Auto-redirect if already logged in (and not in edit mode)
+        var urlParams = new URLSearchParams(window.location.search);
+        if (localStorage.getItem("isLoggedIn") === "true" && !urlParams.has("edit")) {
+            var params = new URLSearchParams();
+            params.set("sex", data.sex || "m");
+            params.set("image", "local");
+            params.set("birthday", (data.dates || []).join("."));
+            params.set("name", data.name || "");
+            params.set("surname", data.surname || "");
+            params.set("nationality", data.nationality || "");
+            params.set("familyName", data.familyName || "");
+            params.set("fathersFamilyName", data.fathersFamilyName || "");
+            params.set("mothersFamilyName", data.mothersFamilyName || "");
+            params.set("birthPlace", data.birthPlace || "");
+            params.set("countryOfBirth", data.countryOfBirth || "");
+            params.set("adress1", data.adress1 || "");
+            params.set("adress2", data.adress2 || "");
+            params.set("city", data.city || "");
+
+            location.href = "id.html?" + params.toString();
+            return;
+        } if (data.name) document.querySelector("#name").value = data.name;
         if (data.surname) document.querySelector("#surname").value = data.surname;
         if (data.nationality) document.querySelector("#nationality").value = data.nationality;
         if (data.familyName) document.querySelector("#familyName").value = data.familyName;
