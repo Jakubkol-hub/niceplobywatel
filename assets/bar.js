@@ -55,3 +55,33 @@ function getMobileOperatingSystem() {
 if (getMobileOperatingSystem() == 2) {
     document.querySelector(".bottom_bar").style.height = "70px"
 }
+
+// --- Screen Wake Lock Implementation ---
+var wakeLock = null;
+
+var requestWakeLock = function () {
+    if ('wakeLock' in navigator) {
+        navigator.wakeLock.request('screen').then(function (lock) {
+            wakeLock = lock;
+            console.log("Wake Lock is active");
+
+            wakeLock.addEventListener('release', function () {
+                console.log("Wake Lock was released");
+            });
+        }).catch(function (err) {
+            console.error("Wake Lock error: " + err.name + ", " + err.message);
+        });
+    } else {
+        console.warn("Wake Lock API not supported in this browser");
+    }
+};
+
+// Request wake lock when the page loads
+requestWakeLock();
+
+// Re-request wake lock when the page becomes visible again
+document.addEventListener('visibilitychange', function () {
+    if (wakeLock !== null && document.visibilityState === 'visible') {
+        requestWakeLock();
+    }
+});
