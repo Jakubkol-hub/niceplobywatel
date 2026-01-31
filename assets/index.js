@@ -182,7 +182,7 @@ document.querySelector(".go").addEventListener('click', () => {
 
 function isEmpty(value) {
 
-    let pattern = /^\s*$/
+    var pattern = /^\s*$/
     return pattern.test(value);
 
 }
@@ -205,7 +205,7 @@ guide.addEventListener('click', () => {
 
 // --- Persistence Functions ---
 function saveData() {
-    const data = {
+    var data = {
         name: document.querySelector("#name").value,
         surname: document.querySelector("#surname").value,
         nationality: document.querySelector("#nationality").value,
@@ -218,16 +218,16 @@ function saveData() {
         adress2: document.querySelector("#adress2").value,
         city: document.querySelector("#city").value,
         sex: sex,
-        dates: Array.from(document.querySelectorAll(".date_input")).map(el => el.value)
+        dates: Array.from(document.querySelectorAll(".date_input")).map(function (el) { return el.value; })
     };
     localStorage.setItem("persistentData", JSON.stringify(data));
 }
 
 function loadData() {
-    const rawData = localStorage.getItem("persistentData");
+    var rawData = localStorage.getItem("persistentData");
     if (!rawData) {
         // Fallback for just the image if no other data exists yet
-        const savedImage = localStorage.getItem("uploadedImage");
+        var savedImage = localStorage.getItem("uploadedImage");
         if (savedImage) {
             upload.setAttribute("selected", "local");
             upload.classList.add("upload_loaded");
@@ -236,7 +236,7 @@ function loadData() {
         return;
     }
     try {
-        const data = JSON.parse(rawData);
+        var data = JSON.parse(rawData);
 
         if (data.name) document.querySelector("#name").value = data.name;
         if (data.surname) document.querySelector("#surname").value = data.surname;

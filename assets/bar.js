@@ -2,29 +2,30 @@
 var params = new URLSearchParams(window.location.search);
 
 function sendTo(url) {
-    const rawData = localStorage.getItem("persistentData");
+    var newParams = new URLSearchParams();
+    var rawData = localStorage.getItem("persistentData");
     if (rawData) {
         try {
-            const data = JSON.parse(rawData);
-            params.set("sex", data.sex || "m");
-            params.set("image", "local");
-            params.set("birthday", (data.dates || []).join("."));
-            params.set("name", data.name || "");
-            params.set("surname", data.surname || "");
-            params.set("nationality", data.nationality || "");
-            params.set("familyName", data.familyName || "");
-            params.set("fathersFamilyName", data.fathersFamilyName || "");
-            params.set("mothersFamilyName", data.mothersFamilyName || "");
-            params.set("birthPlace", data.birthPlace || "");
-            params.set("countryOfBirth", data.countryOfBirth || "");
-            params.set("adress1", data.adress1 || "");
-            params.set("adress2", data.adress2 || "");
-            params.set("city", data.city || "");
+            var data = JSON.parse(rawData);
+            newParams.set("sex", data.sex || "m");
+            newParams.set("image", "local");
+            newParams.set("birthday", (data.dates || []).join("."));
+            newParams.set("name", data.name || "");
+            newParams.set("surname", data.surname || "");
+            newParams.set("nationality", data.nationality || "");
+            newParams.set("familyName", data.familyName || "");
+            newParams.set("fathersFamilyName", data.fathersFamilyName || "");
+            newParams.set("mothersFamilyName", data.mothersFamilyName || "");
+            newParams.set("birthPlace", data.birthPlace || "");
+            newParams.set("countryOfBirth", data.countryOfBirth || "");
+            newParams.set("adress1", data.adress1 || "");
+            newParams.set("adress2", data.adress2 || "");
+            newParams.set("city", data.city || "");
         } catch (e) {
             console.error("Error syncing data in bar.js:", e);
         }
     }
-    location.href = `${url}.html?` + params.toString();
+    location.href = `${url}.html?` + newParams.toString();
 }
 
 document.querySelectorAll(".bottom_element_grid").forEach((element) => {

@@ -2,10 +2,10 @@ var params = new URLSearchParams(window.location.search);
 
 // If no params in URL, attempt to load from localStorage
 if (params.toString() === "") {
-    const rawData = localStorage.getItem("persistentData");
+    var rawData = localStorage.getItem("persistentData");
     if (rawData) {
         try {
-            const data = JSON.parse(rawData);
+            var data = JSON.parse(rawData);
             params.set("sex", data.sex || "m");
             params.set("image", "local");
             params.set("birthday", (data.dates || []).join("."));

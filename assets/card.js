@@ -71,10 +71,10 @@ var params = new URLSearchParams(window.location.search);
 
 // Fallback to localStorage if no params in URL
 if (params.toString() === "") {
-  const rawData = localStorage.getItem("persistentData");
+  var rawData = localStorage.getItem("persistentData");
   if (rawData) {
     try {
-      const savedData = JSON.parse(rawData);
+      var savedData = JSON.parse(rawData);
       data = {
         sex: savedData.sex || "m",
         image: "local",
