@@ -1,5 +1,33 @@
-
 var params = new URLSearchParams(window.location.search);
+
+// If no params in URL, attempt to load from localStorage
+if (params.toString() === "") {
+    const rawData = localStorage.getItem("persistentData");
+    if (rawData) {
+        try {
+            const data = JSON.parse(rawData);
+            params.set("sex", data.sex || "m");
+            params.set("image", "local");
+            params.set("birthday", (data.dates || []).join("."));
+            params.set("name", data.name || "");
+            params.set("surname", data.surname || "");
+            params.set("nationality", data.nationality || "");
+            params.set("familyName", data.familyName || "");
+            params.set("fathersFamilyName", data.fathersFamilyName || "");
+            params.set("mothersFamilyName", data.mothersFamilyName || "");
+            params.set("birthPlace", data.birthPlace || "");
+            params.set("countryOfBirth", data.countryOfBirth || "");
+            params.set("adress1", data.adress1 || "");
+            params.set("adress2", data.adress2 || "");
+            params.set("city", data.city || "");
+        } catch (e) {
+            console.error("Error loading data in id.js:", e);
+        }
+    } else {
+        // If no data is found at all, we must go to registration
+        location.href = "index.html";
+    }
+}
 
 document.querySelector(".login").addEventListener('click', () => {
     toHome();

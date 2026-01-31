@@ -257,7 +257,7 @@ function loadData() {
             params.set("adress2", data.adress2 || "");
             params.set("city", data.city || "");
 
-            location.href = "id.html";
+            location.href = "id.html?" + params.toString();
             return;
         }
 
