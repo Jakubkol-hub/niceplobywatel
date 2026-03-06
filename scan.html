@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <title>mObywatel - Skaner</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <link rel="stylesheet" href="assets/main.css">
+    <script src="https://unpkg.com/html5-qrcode"></script>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            width: 100%;
+            overflow: hidden;
+            background-color: black;
+        }
+
+        #reader {
+            width: 100% !important;
+            height: 100% !important;
+            border: none !important;
+        }
+
+        #reader video {
+            object-fit: cover !important;
+            width: 100% !important;
+            height: 100% !important;
+        }
+
+        .scanner-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 10;
+            pointer-events: none;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .mask {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            /* Creating the hole */
+            clip-path: polygon(
+                0% 0%, 0% 100%, 
+                calc(50% - 125px) 100%, 
+                calc(50% - 125px) calc(50% - 125px), 
+                calc(50% + 125px) calc(50% - 125px), 
+                calc(50% + 125px) calc(50% + 125px), 
+                calc(50% - 125px) calc(50% + 125px), 
+                calc(50% - 125px) 100%, 
+                100% 100%, 100% 0%
+            );
+        }
+
+        .viewfinder {
+            width: 250px;
+            height: 250px;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-sizing: border-box;
+        }
+
+        .corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #0052a5;
+        }
+
+        .tl { top: -2px; left: -2px; border-right: none; border-bottom: none; }
+        .tr { top: -2px; right: -2px; border-left: none; border-bottom: none; }
+        .bl { bottom: -2px; left: -2px; border-right: none; border-top: none; }
+        .br { bottom: -2px; right: -2px; border-left: none; border-top: none; }
+
+        .instruction {
+            color: white;
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 500;
+            margin-top: 30px;
+            text-align: center;
+            z-index: 11;
+        }
+
+        .top-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 60px;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-sizing: border-box;
+            z-index: 20;
+            pointer-events: auto;
+        }
+
+        .back-btn {
+            display: flex;
+            align-items: center;
+            color: white;
+            text-decoration: none;
+            font-family: 'Poppins', sans-serif;
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        .back-btn img {
+            width: 20px;
+            height: 20px;
+            margin-right: 10px;
+            filter: brightness(0) invert(1);
+        }
+
+        /* Hide library UI elements */
+        #reader__dashboard, #reader__header_message, #reader__status_span {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <a href="qr.html" class="back-btn">
+            <img src="https://i.imgur.com/WSWcFNB.png" style="transform: rotate(90deg);">
+            Cofnij
+        </a>
+    </div>
+
+    <div id="reader"></div>
+
+    <div class="scanner-overlay">
+        <div class="mask"></div>
+        <div class="viewfinder">
+            <div class="corner tl"></div>
+            <div class="corner tr"></div>
+            <div class="corner bl"></div>
+            <div class="corner br"></div>
+        </div>
+        <p class="instruction">Umieść kod QR w ramce</p>
+    </div>
+
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            // Once scanned, redirect to confirmation page
+            // We can even pass the decoded data if we want to simulate more, 
+            // but for now we'll just go to a generic confirmation.
+            console.log(`Code scanned = ${decodedText}`, decodedResult);
+            html5QrcodeScanner.clear();
+            window.location.href = "confirm.html";
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader", { fps: 10, qrbox: 250 });
+        
+        // Customizing the scanner to start immediately
+        const html5QrCode = new Html5Qrcode("reader");
+        const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+            onScanSuccess(decodedText, decodedResult);
+        };
+        const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+
+        // If you want to handle errors:
+        const qrCodeErrorCallback = (errorMessage) => {
+            // console.log(errorMessage);
+        };
+
+        html5QrCode.start({ facingMode: "environment" }, config, qrCodeSuccessCallback, qrCodeErrorCallback);
+    </script>
+</body>
+</html>

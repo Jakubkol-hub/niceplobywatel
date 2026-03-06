@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <title>mObywatel - Udostępniasz dane</title>
+    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <link rel="stylesheet" href="assets/main.css">
+    <style>
+        body {
+            background-color: #f5f6fb;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            box-sizing: border-box;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .header {
+            margin-top: 40px;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-family: 'Poppins', sans-serif;
+            font-size: 26px;
+            font-weight: 700;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 20px;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            background: #edf2f9;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+        }
+
+        .card-icon img {
+            width: 25px;
+        }
+
+        .card-text {
+            flex-grow: 1;
+        }
+
+        .card-title {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #1a1a1a;
+            margin: 0;
+        }
+
+        .card-subtitle {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #757575;
+            margin: 0;
+        }
+
+        .info-section {
+            margin-bottom: auto;
+            padding-left: 5px;
+        }
+
+        .info-label {
+            font-family: 'Poppins', sans-serif;
+            font-size: 13px;
+            color: #757575;
+            margin-bottom: 4px;
+        }
+
+        .user-name {
+            font-family: 'Poppins', sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            color: #000;
+            margin: 0;
+            letter-spacing: 0.3px;
+        }
+
+        .button-container {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            font-family: 'Poppins', sans-serif;
+            font-size: 16px;
+            font-weight: 600;
+            height: 52px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background-color 0.2s, transform 0.1s;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary {
+            background-color: #0052a5;
+            color: white;
+            border: none;
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            color: #424242;
+            border: none;
+        }
+
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+        }
+
+        .check-icon {
+            width: 80px;
+            height: 80px;
+            background: #28a745;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .check-icon::after {
+            content: "✓";
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Udostępniasz dane</h1>
+    </div>
+
+    <div class="card">
+        <div class="card-icon">
+            <img src="https://i.imgur.com/IsGxaKU.png">
+        </div>
+        <div class="card-text">
+            <p class="card-title">mDowód</p>
+            <p class="card-subtitle">Wersja elektroniczna</p>
+        </div>
+        <img src="https://i.imgur.com/5cFO9Gu.png" style="width: 20px;">
+    </div>
+
+    <div class="info-section">
+        <p class="info-label">Twoje dane</p>
+        <p class="user-name" id="userName">JAN KOWALSKI</p>
+    </div>
+
+    <div class="button-container">
+        <div class="btn btn-primary" onclick="handleShare()">Udostępnij</div>
+        <a href="qr.html" class="btn btn-secondary" style="text-decoration: none;">Anuluj</a>
+    </div>
+
+    <div id="successOverlay" class="success-overlay">
+        <div class="check-icon"></div>
+        <h2 style="font-family: Poppins; font-size: 22px;">Udostępniono dane</h2>
+    </div>
+
+    <script>
+        // Load name from localStorage
+        const rawData = localStorage.getItem("persistentData");
+        if (rawData) {
+            try {
+                const data = JSON.parse(rawData);
+                const name = data.name || "";
+                const surname = data.surname || "";
+                if (name || surname) {
+                    document.getElementById('userName').innerText = (name + " " + surname).toUpperCase();
+                }
+            } catch (e) {
+                console.error("Error loading name:", e);
+            }
+        }
+
+        function handleShare() {
+            document.getElementById('successOverlay').style.display = 'flex';
+            setTimeout(() => {
+                window.location.href = "qr.html";
+            }, 1500);
+        }
+    </script>
+</body>
+
+</html>
