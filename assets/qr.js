@@ -1,9 +1,16 @@
 
 var error = document.querySelector(".error");
+var actions = document.querySelectorAll(".action");
 
-document.querySelectorAll(".action").forEach((element) => {
+actions.forEach((element, index) => {
     element.addEventListener('click', () => {
-        error.classList.add("error_open");
+        if (index === 0) {
+            window.location.href = "scan.html";
+        } else if (index === 1) {
+            window.location.href = "verifier.html";
+        } else {
+            error.classList.add("error_open");
+        }
     });
 });
 
