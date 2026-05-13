@@ -1,233 +1,171 @@
+<!DOCTYPE html>
+<html lang="pl">
 <head>
-    <title>mObywatel</title>
+    <title>mObywatel - mDowód</title>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="assets/card.css?v=1.2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <link rel="stylesheet" href="assets/main.css">
-    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/U7TRg0V.png">
-    <link rel="apple-touch-icon" href="https://i.imgur.com/U7TRg0V.png">
-    <link rel="shortcut icon" href="https://i.imgur.com/U7TRg0V.png">
-    <meta name="format-detection" content="telephone=no">
-    
-    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
-    
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> 
-    
-    <meta name="theme-color" content="#121212"> 
     <link rel="manifest" href="manifest.json">
+    <style>
+        .top_grid {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 40px 20px 10px 20px;
+        }
+        .back-link { display: flex; align-items: center; color: var(--accent); text-decoration: none; font-size: 14px; }
+        .back-icon { width: 20px; margin-right: 5px; }
+        .page-title { font-size: 18px; font-weight: 700; margin: 0; }
+
+        .time-box { text-align: center; font-size: 12px; color: var(--text-sub); margin-bottom: 10px; }
+
+        /* ID Card Area */
+        .id-card-wrapper {
+            position: relative;
+            margin: 10px 20px;
+            aspect-ratio: 1.58 / 1;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 15px 40px rgba(0,0,0,0.6);
+            background: #fff url('https://i.imgur.com/Ssv8rps.jpeg') no-repeat center;
+            background-size: cover;
+        }
+        
+        /* THE PHOTO */
+        .id_own_image {
+            position: absolute;
+            top: 24%;
+            left: 6%;
+            width: 28%;
+            height: 52%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            border-radius: 4px;
+            z-index: 10;
+            background-color: #ddd; /* Fallback */
+        }
+
+        .flag-gif { position: absolute; top: 10%; right: 5%; width: 15%; }
+        .eagle-gif { position: absolute; bottom: 10%; right: 5%; width: 12%; }
+
+        .id-data-text {
+            position: absolute;
+            top: 24%;
+            left: 38%;
+            width: 55%;
+            color: #111;
+            font-size: 8px;
+            line-height: 1.2;
+        }
+        .data-val { font-size: 11px; font-weight: 700; color: #000; margin-bottom: 4px; display: block; }
+        .data-label { font-size: 7px; color: #555; display: block; text-transform: uppercase; }
+
+        /* Details Sections */
+        .details-section {
+            background: var(--card-bg);
+            margin: 20px;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid var(--border);
+        }
+        .detail-row { display: flex; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); }
+        .detail-row:last-child { border-bottom: none; }
+        .detail-label { font-size: 12px; color: var(--text-sub); }
+        .detail-val { font-size: 14px; font-weight: 600; }
+
+        /* Bottom Bar */
+        .bottom_bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: rgba(26, 27, 38, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--border);
+            padding: 10px 0 30px 0;
+            z-index: 100;
+        }
+    </style>
 </head>
 <body>
     <div class="top_grid">
-        <div class="action_grid">
-            <img src="https://i.imgur.com/aXIO2NG.png" class="back_img">
-            <p onclick="sendTo('home')" class="back_text">Wróć</p>
-        </div>
-        <p class="title_text">mDowód</p>
-        <img src="https://i.imgur.com/VHNv1TC.png" class="help_img">
+        <a href="home.html" class="back-link">
+            <img src="https://i.imgur.com/aXIO2NG.png" class="back-icon"> Wróć
+        </a>
+        <p class="page-title">mDowód</p>
+        <img src="https://i.imgur.com/VHNv1TC.png" style="width:24px;">
     </div>
 
-    <div class="bottom_bar">
-        <div class="bottom_bar_grid">
-            <div class="bottom_element_grid" send="home">
-                <div class="bottom_element_image home_open home"></div>
-                <p class="bottom_element_text open">Dokumenty</p>
-            </div>
-            <div class="bottom_element_grid" send="services">
-                <div class="bottom_element_image services"></div>
-                <p class="bottom_element_text">Usługi</p>
-            </div>
-            <div class="bottom_element_grid" send="qr">
-                <div class="bottom_element_image qr"></div>
-                <p class="bottom_element_text">Kod QR</p>
-            </div>
-            <div class="bottom_element_grid" send="more">
-                <div class="bottom_element_image more"></div>
-                <p class="bottom_element_text">Więcej</p>
-            </div>
-        </div>
-    </div>
-    <p class="time_text" id="time"></p>
-    <div class="id_image_data">
-        <img draggable="false" class="id_image" src="https://i.imgur.com/Ssv8rps.jpeg">
-        <div class="inset">
+    <div class="time-box" id="time">Ładowanie...</div>
 
-        </div>
-        <div class="id_own_image" style="background-image: url('https://i.imgur.com/7vHo48p.jpg');"></div>
-        <img draggable="false" src="https://i.imgur.com/I7oPp72.gif" class="flag_video">
-        <img draggable="false" src="https://i.imgur.com/EbBJWYb.gif" class="eagle_video">
-        <p class="eagle_text">Rzeczpospolita<br>Polska</p>
-        <div class="id_data_grid">
-            <div class="data_holder">
-                <p class="data_title firstname" id="name"></p>
-                <p class="data_value">Imię (imiona)</p>
-            </div>
-            <div class="data_holder">
-                <p class="data_title surname" id="surname"></p>
-                <p class="data_value">Nazwisko</p>
-            </div>
-            <div class="data_holder">
-                <p class="data_title" id="nationality"></p>
-                <p class="data_value">Obywatelstwo</p>
-            </div>
-            <div class="data_holder">
-                <p class="data_title" id="birthday"></p>
-                <p class="data_value">Data urodzenia</p>
-            </div>
-            <div class="data_holder">
-                <p class="data_title" id="pesel"></p>
-                <p class="data_value">Numer PESEL</p>
-            </div>
+    <div class="id-card-wrapper">
+        <div class="id_own_image" id="profile_photo"></div>
+        <img src="https://i.imgur.com/I7oPp72.gif" class="flag-gif">
+        <img src="https://i.imgur.com/EbBJWYb.gif" class="eagle-gif">
+        
+        <div class="id-data-text">
+            <span class="data-label">Imię (imiona)</span>
+            <span class="data-val" id="name">---</span>
+            
+            <span class="data-label">Nazwisko</span>
+            <span class="data-val" id="surname">---</span>
+            
+            <span class="data-label">Obywatelstwo</span>
+            <span class="data-val" id="nationality">---</span>
+            
+            <span class="data-label">Data urodzenia</span>
+            <span class="data-val" id="birthday">---</span>
+            
+            <span class="data-label">Numer PESEL</span>
+            <span class="data-val" id="pesel">---</span>
         </div>
     </div>
-    <div class="id_bottom">
-        <div class="bottom_grid">
-            <img class="bottom_image" src="https://i.imgur.com/bdx9fzT.png">
-            <p class="bottom_text" style="color: #17bf2d; font-size: 17px;">Dokument ważny</p>
-        </div>
-        </div>
-    </div>
-    
-    <div class="top-buttons">
-        <button onclick="sendTo('qr')">
-          <div class="icon-circle">
-            <img src="https://i.imgur.com/DGBsoYY.png"alt="Potwierdź">
-          </div>
-          <span>Potwierdź<br>swoje&nbsp;dane</span>
 
-        </button>
-      
-        <button onclick="sendTo('moreid')">
-          <div class="icon-circle">
-            <img src="https://i.imgur.com/2SPOxrW.png" alt="Dowód">
-          </div>
-          <span>Dane<br>dowodu<br>osobistego</span>
-        </button>
-      
-        <button onclick="sendTo('pesel')">
-            <div class="icon-circle">
-              <img src="https://i.imgur.com/aDXGRtB.png" alt="PESEL">
-            </div>
-            <span>Zastrzeż PESEL</span>
-          </button>
-          
-      <button onclick="sendTo('shortcuts')">
-            <div class="icon-circle">
-              <img src="https://i.imgur.com/KYGZHxe.png" alt="Więcej">
-            </div>
-            <span>Pozostałe skróty</span>
-          </button>
-
-      </div>
-            
-            <div class="card custom-card">
-                <div class="field">
-                    <label>Seria i numer mDowodu</label>
-                    <div class="value-copy">
-                        <div>
-                            <b style="font-size:27px">MWYC 24561</b>
-                            <br>
-                            <label style="font-size:14px">Dane mDowodu i dowodu<br>osobistego są inne - to dwa różne<br>dokumenty.</label>
-                        </div>
-                        <button class="value-copy">Kopiuj</button> 
-                    </div>
-                </div>
-            
-                <div class="field">
-                    <label>Termin ważności</label>
-                    <strong>14.07.2028</strong>
-                </div>
-            
-                <div class="field">
-                    <label>Data wydania</label>
-                    <strong>14.07.2023</strong>
-                </div>
-            
-                <div class="field">
-                    <label>Imię ojca</label>
-                    <strong id="fatherName">Maciej</strong>
-                </div>
-            
-                <div class="field">
-                    <label>Imię matki</label>
-                    <strong id="motherName">Ewa</strong>
-                </div>
-            </div>
-            
-        <div class="bottom_holder info_holder">
-            <div class="bottom_grid">
-                <p class="bottom_text" style="color: var(--font); margin-left: 0px;">Twoje dodatkowe dane</p>
-            </div>
-            <img class="action_arrow" src="https://i.imgur.com/lTxuUMF.png">
-            <div class="additional_holder">
-                <div class="additional_grid">
-                    <p class="additional_title">Nazwisko rodowe</p>
-                    <p class="additional_subtitle" id="familyName"></p>
-                </div>
-                <div class="additional_grid">
-                    <p class="additional_title">Płeć</p>
-                    <p class="additional_subtitle" id="sex"></p>
-                </div>
-                <div class="additional_grid">
-                    <p class="additional_title">Nazwisko rodowe ojca</p>
-                    <p class="additional_subtitle" id="fathersFamilyName"></p>
-                </div>
-                <div class="additional_grid">
-                    <p class="additional_title">Nazwisko rodowe matki</p>
-                    <p class="additional_subtitle" id="mothersFamilyName"></p>
-                </div>
-                <div class="additional_grid">
-                    <p class="additional_title">Miejsce urodzenia</p>
-                    <p class="additional_subtitle" id="birthPlace"></p>
-                </div>
-                <div class="additional_grid">
-                    <p class="additional_title">Kraj urodzenia</p>
-                    <p class="additional_subtitle" id="countryOfBirth"></p>
-                </div>
-                <div class="additional_grid">
-                    <p class="additional_title">Adres zameldowania na pobyt stały</p>
-                    <p class="additional_subtitle" id="adress"></p>
-                </div>
-                <div class="additional_grid" style="border-bottom: none;">
-                    <p class="additional_title">Data zameldowania na pobyt stały</p>
-                    <p class="additional_subtitle home_date"></p>
-                </div>
-            </div>
+    <div class="details-section">
+        <div class="detail-row">
+            <span class="detail-label">Seria i numer mDowodu</span>
+            <span class="detail-val">MWYC 24561</span>
         </div>
-        <div class="bottom_holder" style="height: 90px; margin-bottom: 5px;">
-            <div class="bottom_update">
-                <div class="bottom_update_grid">
-                    <p class="bottom_update_text" style="margin-left: 0px;">Ostatnia aktualizacja</p>
-                    <p class="bottom_update_value" id="lastUpdatedDate" style="margin-left: 0px;"></p>
-                </div>
-                <button class="main_button update" onclick="updateNow()">Aktualizuj</button>
-            </div>
+        <div class="detail-row">
+            <span class="detail-label">Termin ważności</span>
+            <span class="detail-val">14.07.2028</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Imię ojca</span>
+            <span class="detail-val" id="fatherName">---</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Imię matki</span>
+            <span class="detail-val" id="motherName">---</span>
         </div>
     </div>
-    <div class="bottomtesktern" style="height: 8px; margin-bottom: 120px;">
-                    
-                </div>
+
+    <div class="details-section" style="margin-bottom: 120px;">
+        <p style="color: var(--accent); font-weight: 700; margin-top: 0;">Twoje dodatkowe dane</p>
+        <div class="detail-row">
+            <span class="detail-label">Miejsce urodzenia</span>
+            <span class="detail-val" id="birthPlace">---</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Adres zameldowania</span>
+            <span class="detail-val" id="adress" style="text-align: right; font-size: 12px;">---</span>
+        </div>
+        <div class="detail-row">
+            <span class="detail-label">Ostatnia aktualizacja</span>
+            <span class="detail-val" id="lastUpdatedDate">---</span>
+        </div>
+    </div>
+
     <script src="assets/bar.js"></script>
-    <script src="assets/card.js?v=1.0"></script>
-    <script src="assets/manifest.js"></script>
     <script>
         function updateTime() {
             const now = new Date();
             const timeStr = now.toLocaleTimeString('pl-PL', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
             const dateStr = now.toLocaleDateString('pl-PL');
-            if(document.getElementById('time')) document.getElementById('time').innerText = "Czas: " + timeStr + "  " + dateStr;
+            document.getElementById('time').innerText = "Czas: " + timeStr + "  " + dateStr;
         }
         setInterval(updateTime, 1000);
         updateTime();
-
-        function updateNow() {
-            const now = new Date().toLocaleString('pl-PL');
-            document.getElementById('lastUpdatedDate').innerText = now;
-            let ud = JSON.parse(localStorage.getItem('userData') || '{}');
-            ud.lastUpdated = now;
-            localStorage.setItem('userData', JSON.stringify(ud));
-            alert("Dane zostały zaktualizowane!");
-        }
     </script>
 </body>
+</html>

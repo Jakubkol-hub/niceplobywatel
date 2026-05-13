@@ -2,9 +2,10 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 <title>Autoryzacja - mObywatel</title>
 
+<link rel="stylesheet" href="assets/main.css">
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#121212">
 <link rel="apple-touch-icon" href="https://i.imgur.com/U7TRg0V.png">
@@ -14,13 +15,7 @@
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap');
-
 body {
-    margin: 0;
-    font-family: 'Roboto', sans-serif;
-    background: linear-gradient(135deg, #1a1b26, #16161e);
-    color: white;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -28,71 +23,16 @@ body {
     overflow: hidden;
 }
 
-.background-shapes {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    overflow: hidden;
-}
-
-.shape {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(80px);
-}
-
-.shape-1 {
-    width: 300px;
-    height: 300px;
-    background: rgba(41, 121, 255, 0.3);
-    top: -50px;
-    left: -50px;
-}
-
-.shape-2 {
-    width: 400px;
-    height: 400px;
-    background: rgba(213, 0, 249, 0.2);
-    bottom: -100px;
-    right: -50px;
-}
-
 .box {
     width: 320px;
     padding: 40px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
     text-align: center;
     z-index: 1;
 }
 
-.logo-container {
-    margin-bottom: 30px;
-}
-
-.logo-container img {
-    width: 80px;
-    height: auto;
-    margin-bottom: 15px;
-}
-
-h2 {
-    margin: 0 0 10px 0;
-    font-size: 24px;
-    font-weight: 500;
-    letter-spacing: 1px;
-    color: #e0e0e0;
-}
-
-p.subtitle {
-    margin: 0 0 30px 0;
-    font-size: 14px;
-    color: #888;
-}
+.logo-container { margin-bottom: 30px; }
+h2 { margin: 0 0 10px 0; font-size: 24px; font-weight: 500; letter-spacing: 1px; color: #e0e0e0; }
+p.subtitle { margin: 0 0 30px 0; font-size: 14px; color: #888; }
 
 input {
     width: 100%;
@@ -110,11 +50,7 @@ input {
     letter-spacing: 4px;
 }
 
-input:focus {
-    border-color: #2979ff;
-    box-shadow: 0 0 20px rgba(41, 121, 255, 0.2);
-    background: rgba(0, 0, 0, 0.5);
-}
+input:focus { border-color: var(--accent); box-shadow: 0 0 20px rgba(41, 121, 255, 0.2); }
 
 button {
     width: 100%;
@@ -130,30 +66,34 @@ button {
     transition: all 0.3s ease;
 }
 
-button:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 15px 25px rgba(41, 121, 255, 0.4);
-}
-
-button:active {
-    transform: translateY(1px);
-}
-
-.error-msg {
-    color: #ff5252;
-    font-size: 14px;
-    margin-top: 15px;
+#setup-box {
     display: none;
-    animation: shake 0.4s;
+    width: 90%;
+    max-width: 500px;
+    height: 80vh;
+    padding: 30px;
+    text-align: left;
+    z-index: 1;
+    overflow-y: auto;
 }
 
-@keyframes shake {
-    0% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-    100% { transform: translateX(0); }
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; margin-bottom: 5px; font-size: 14px; color: #bbb; }
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.3);
+    color: white;
+    font-size: 15px;
+    outline: none;
+    box-sizing: border-box;
+    letter-spacing: normal;
+    text-align: left;
 }
+
+.setup-btn { margin-top: 20px; }
 
 #banned-screen {
     display: none;
@@ -168,93 +108,19 @@ button:active {
     flex-direction: column;
 }
 
-#banned-screen h1 {
-    color: #ff5252;
-    font-size: 48px;
-    margin-bottom: 10px;
-}
-
-#banned-screen p {
-    color: #aaa;
-    font-size: 18px;
-}
-
-#setup-box {
-    display: none;
-    width: 90%;
-    max-width: 500px;
-    height: 80vh;
-    padding: 30px;
-    border-radius: 24px;
-    background: rgba(255, 255, 255, 0.03);
-    backdrop-filter: blur(25px);
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-    text-align: left;
-    z-index: 1;
-    overflow-y: auto;
-}
-
-#setup-box h2 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-.form-group {
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-size: 14px;
-    color: #bbb;
-}
-
-.form-group input, .form-group select {
+.background-shapes {
+    position: absolute;
     width: 100%;
-    padding: 12px;
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.3);
-    color: white;
-    font-size: 15px;
-    outline: none;
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-    letter-spacing: normal;
-    text-align: left;
+    height: 100%;
+    z-index: 0;
+    overflow: hidden;
 }
-
-.form-group input[type="file"] {
-    padding: 10px;
-}
-
-.form-group input:focus, .form-group select:focus {
-    border-color: #2979ff;
-    background: rgba(0, 0, 0, 0.5);
-}
-
-.setup-btn {
-    margin-top: 20px;
-}
-
-/* Custom Scrollbar for setup box */
-#setup-box::-webkit-scrollbar {
-    width: 8px;
-}
-#setup-box::-webkit-scrollbar-track {
-    background: rgba(0,0,0,0.1);
-    border-radius: 10px;
-}
-#setup-box::-webkit-scrollbar-thumb {
-    background: rgba(255,255,255,0.2);
-    border-radius: 10px;
-}
+.shape { position: absolute; border-radius: 50%; filter: blur(80px); }
+.shape-1 { width: 300px; height: 300px; background: rgba(41, 121, 255, 0.2); top: -50px; left: -50px; }
+.shape-2 { width: 400px; height: 400px; background: rgba(213, 0, 249, 0.1); bottom: -100px; right: -50px; }
 </style>
 
 </head>
-
 <body>
 
 <div class="background-shapes">
@@ -263,11 +129,11 @@ button:active {
 </div>
 
 <div id="banned-screen">
-    <h1>Odmowa dostępu</h1>
+    <h1 style="color:#ff4444">Odmowa dostępu</h1>
     <p id="ban-reason">Twoje urządzenie zostało zablokowane.</p>
 </div>
 
-<div class="box" id="login-box">
+<div class="box glass-card" id="login-box">
     <div class="logo-container">
         <h2>Weryfikacja</h2>
         <p class="subtitle">mObywatel Premium</p>
@@ -275,12 +141,12 @@ button:active {
 
     <input type="password" id="code" placeholder="PIN" maxlength="4">
     <button onclick="checkCode()">Autoryzuj</button>
-    <div id="error" class="error-msg">Nieprawidłowy PIN</div>
+    <div id="error" style="color:#ff4444; font-size:12px; margin-top:10px; display:none;">Nieprawidłowy PIN</div>
 </div>
 
-<div id="setup-box">
-    <h2>Konfiguracja profilu</h2>
-    <p style="text-align:center; color:#888; font-size:14px; margin-bottom:20px;">Wypełnij dane, aby wygenerować dokument. Robisz to tylko raz.</p>
+<div id="setup-box" class="glass-card">
+    <h2 style="text-align:center">Konfiguracja profilu</h2>
+    <p style="text-align:center; color:#888; font-size:12px; margin-bottom:20px;">Wypełnij dane raz, aby wygenerować dokument.</p>
     
     <div class="form-group">
         <label>Zdjęcie profilowe</label>
@@ -295,31 +161,14 @@ button:active {
         <input type="text" id="su_lastName" placeholder="Kowalski">
     </div>
     <div class="form-group">
-        <label>Obywatelstwo</label>
-        <input type="text" id="su_nationality" value="POLSKIE">
-    </div>
-    <div class="form-group">
         <label>Data urodzenia (DD.MM.RRRR)</label>
         <input type="text" id="su_birthDate" placeholder="01.01.2000" onblur="autoGenPesel()">
     </div>
     <div class="form-group">
-        <label>Numer PESEL (zostaw puste, aby wygenerować)</label>
+        <label>Numer PESEL (puste = auto)</label>
         <input type="text" id="su_pesel" placeholder="Automatycznie" maxlength="11">
     </div>
 
-    <h3 style="font-size:18px; margin-top:30px; border-bottom:1px solid #333; padding-bottom:10px;">Twoje dodatkowe dane</h3>
-
-    <div class="form-group">
-        <label>Nazwisko rodowe</label>
-        <input type="text" id="su_familyName" placeholder="Kowalski">
-    </div>
-    <div class="form-group">
-        <label>Płeć</label>
-        <select id="su_gender" onchange="autoGenPesel()">
-            <option value="Mężczyzna">Mężczyzna</option>
-            <option value="Kobieta">Kobieta</option>
-        </select>
-    </div>
     <div class="form-group">
         <label>Imię ojca</label>
         <input type="text" id="su_fatherName" placeholder="Marek">
@@ -333,16 +182,8 @@ button:active {
         <input type="text" id="su_birthPlace" placeholder="Warszawa">
     </div>
     <div class="form-group">
-        <label>Kraj urodzenia</label>
-        <input type="text" id="su_birthCountry" value="POLSKA">
-    </div>
-    <div class="form-group">
-        <label>Adres zameldowania na pobyt stały</label>
+        <label>Adres zameldowania</label>
         <input type="text" id="su_address" placeholder="ul. Wiejska 1, 00-001 Warszawa">
-    </div>
-    <div class="form-group">
-        <label>Data zameldowania na pobyt stały</label>
-        <input type="text" id="su_addressDate" placeholder="01.01.2020">
     </div>
 
     <button class="setup-btn" onclick="saveSetupData()">Zapisz i kontynuuj</button>
@@ -351,125 +192,44 @@ button:active {
 <script>
 // --- PWA SERVICE WORKER ---
 if ('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('sw.js').then(() => {
-        console.log('Service Worker Registered');
-    });
+    navigator.serviceWorker.register('sw.js');
 }
 
-// --- INICJALIZACJA FIREBASE ---
-const firebaseConfig = {
-  apiKey: "AIzaSyBaPHJSgHSBlT503b6EJxvgdeFJ2sxUuoY",
-  authDomain: "obywatel-polski.firebaseapp.com",
-  projectId: "obywatel-polski",
-  storageBucket: "obywatel-polski.firebasestorage.app",
-  messagingSenderId: "146396600602",
-  appId: "1:146396600602:web:cd845989d2a6bfade034a3"
-};
-
-if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-}
-const db = firebase.firestore();
-
-// --- LOGIKA PESEL ---
+// --- PESEL ---
 function autoGenPesel() {
-    const birthDateStr = document.getElementById('su_birthDate').value;
-    const gender = document.getElementById('su_gender').value;
-    const peselInput = document.getElementById('su_pesel');
-
-    if (!birthDateStr || !birthDateStr.includes('.')) return;
-
-    try {
-        const parts = birthDateStr.split('.');
-        const day = parseInt(parts[0]);
-        const month = parseInt(parts[1]);
-        const year = parseInt(parts[2]);
-
-        if (isNaN(day) || isNaN(month) || isNaN(year)) return;
-
-        let yearShort = year % 100;
-        let monthOffset = 0;
-
-        if (year >= 1800 && year <= 1899) monthOffset = 80;
-        else if (year >= 2000 && year <= 2099) monthOffset = 20;
-        else if (year >= 2100 && year <= 2199) monthOffset = 40;
-        else if (year >= 2200 && year <= 2299) monthOffset = 60;
-
-        let p_year = yearShort.toString().padStart(2, '0');
-        let p_month = (month + monthOffset).toString().padStart(2, '0');
-        let p_day = day.toString().padStart(2, '0');
-
-        let r1 = Math.floor(Math.random() * 10);
-        let r2 = Math.floor(Math.random() * 10);
-        let r3 = Math.floor(Math.random() * 10);
-        
-        let g = Math.floor(Math.random() * 5) * 2; 
-        if (gender === "Mężczyzna") g += 1; 
-
-        let pesel9 = p_year + p_month + p_day + r1 + r2 + r3 + g;
-        
-        let weights = [1, 3, 7, 9, 1, 3, 7, 9, 1, 3];
-        let sum = 0;
-        for (let i = 0; i < 10; i++) {
-            sum += parseInt(pesel9[i]) * weights[i];
-        }
-        let checksum = (10 - (sum % 10)) % 10;
-        
-        peselInput.value = pesel9 + checksum;
-    } catch (e) {
-        console.error("Błąd generowania PESEL", e);
-    }
-}
-
-// --- LOGIKA URZĄDZEŃ I BANÓW ---
-function generateDeviceId() {
-    return 'dev_' + Math.random().toString(36).substr(2, 9) + '_' + Date.now();
-}
-
-function getDeviceName() {
-    const ua = navigator.userAgent;
-    if (/iPhone/i.test(ua)) return "iPhone";
-    if (/iPad/i.test(ua)) return "iPad";
-    if (/Android/i.test(ua)) {
-        const match = ua.match(/Android.*?; (.*?) Build/);
-        return match ? match[1] : "Android";
-    }
-    if (/Windows/i.test(ua)) return "Windows PC";
-    if (/Mac OS/i.test(ua)) return "Mac";
-    return "Nieznane urządzenie";
-}
-
-let deviceId = localStorage.getItem('deviceId');
-if (!deviceId) {
-    deviceId = generateDeviceId();
-    localStorage.setItem('deviceId', deviceId);
-}
-
-let isAllowed = true;
-
-function showBannedScreen(msg) {
-    document.getElementById('login-box').style.display = 'none';
-    const banScreen = document.getElementById('banned-screen');
-    banScreen.style.display = 'flex';
-    document.getElementById('ban-reason').innerText = msg;
+    const b = document.getElementById('su_birthDate').value;
+    if (!b || !b.includes('.')) return;
+    const p = b.split('.');
+    const d = p[0], m = p[1], y = p[2];
+    let yr = y.substr(2,2);
+    let mo = parseInt(m);
+    if (parseInt(y) >= 2000) mo += 20;
+    let pesel = yr + mo.toString().padStart(2,'0') + d.padStart(2,'0') + Math.floor(10000 + Math.random() * 90000).toString().substr(0,5);
+    document.getElementById('su_pesel').value = pesel;
 }
 
 // --- LOGIKA LOGOWANIA ---
 function checkCode() {
-    if (!isAllowed) return;
-
-    const code = document.getElementById("code").value;
-    const errorEl = document.getElementById("error");
-
-    if (!code) {
-        errorEl.innerText = "Wpisz kod PIN";
-        errorEl.style.display = "block";
-        return;
+    // Sprawdź czy zbanowany przed logowaniem
+    let deviceId = localStorage.getItem('deviceId');
+    if (deviceId && typeof firebase !== 'undefined') {
+        const db = firebase.firestore();
+        db.collection('devices').doc(deviceId).get().then(doc => {
+            if (doc.exists && doc.data().status === 'banned') {
+                document.getElementById('login-box').style.display = 'none';
+                document.getElementById('banned-screen').style.display = 'flex';
+                return;
+            }
+            proceedLogin();
+        });
+    } else {
+        proceedLogin();
     }
+}
 
+function proceedLogin() {
+    const code = document.getElementById("code").value;
     if (code === "2137") {
-        errorEl.style.display = "none";
-        
         if (!localStorage.getItem('userData')) {
             document.getElementById('login-box').style.display = 'none';
             document.getElementById('setup-box').style.display = 'block';
@@ -477,65 +237,39 @@ function checkCode() {
             window.location.href = "home.html";
         }
     } else {
-        errorEl.innerText = "Nieprawidłowy kod PIN";
-        errorEl.style.display = "block";
+        document.getElementById("error").style.display = "block";
     }
 }
 
 function saveSetupData() {
-    const required = ['su_firstName', 'su_lastName', 'su_birthDate'];
-    for (let id of required) {
-        if (!document.getElementById(id).value) {
-            alert("Proszę wypełnić wszystkie wymagane pola (Imię, Nazwisko, Data urodzenia)");
-            return;
-        }
-    }
-
-    if (!document.getElementById('su_pesel').value) {
-        autoGenPesel();
-    }
-
     let userData = {
         firstName: document.getElementById('su_firstName').value,
         lastName: document.getElementById('su_lastName').value,
-        nationality: document.getElementById('su_nationality').value,
         birthDate: document.getElementById('su_birthDate').value,
         pesel: document.getElementById('su_pesel').value,
-        
-        familyName: document.getElementById('su_familyName').value,
-        gender: document.getElementById('su_gender').value,
         fatherName: document.getElementById('su_fatherName').value,
         motherName: document.getElementById('su_motherName').value,
         birthPlace: document.getElementById('su_birthPlace').value,
-        birthCountry: document.getElementById('su_birthCountry').value,
         address: document.getElementById('su_address').value,
-        addressDate: document.getElementById('su_addressDate').value,
         lastUpdated: new Date().toLocaleString('pl-PL'),
-        
         photo: null
     };
 
-    let fileInput = document.getElementById('su_photo');
-    if (fileInput.files && fileInput.files[0]) {
-        let reader = new FileReader();
-        reader.onload = function(e) {
+    let f = document.getElementById('su_photo').files[0];
+    if (f) {
+        let r = new FileReader();
+        r.onload = function(e) {
             userData.photo = e.target.result;
             localStorage.setItem('userData', JSON.stringify(userData));
             window.location.href = "home.html";
         };
-        reader.readAsDataURL(fileInput.files[0]);
+        r.readAsDataURL(f);
     } else {
         localStorage.setItem('userData', JSON.stringify(userData));
         window.location.href = "home.html";
     }
 }
-
-document.getElementById('code').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        checkCode();
-    }
-});
 </script>
-
+<script src="assets/bar.js"></script>
 </body>
 </html>

