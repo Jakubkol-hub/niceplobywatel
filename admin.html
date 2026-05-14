@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>vesshy pv | Admin Panel</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+        :root {
+            --bg-base: #0a0f1e;
+            --glass-bg: rgba(30, 41, 59, 0.7);
+            --primary: #8b5cf6;
+            --secondary: #3b82f6;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.1);
+            --danger: #ef4444;
+            --success: #10b981;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-base);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            background-image: radial-gradient(circle at top right, rgba(139, 92, 246, 0.1), transparent),
+                              radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.1), transparent);
+        }
+
+        .dashboard {
+            width: 100%;
+            max-width: 1000px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 20px;
+        }
+
+        h1 { font-weight: 800; font-size: 24px; margin: 0; background: linear-gradient(to right, #a78bfa, #60a5fa); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.03);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        .stat-card span { display: block; color: var(--text-muted); font-size: 12px; font-weight: 600; text-transform: uppercase; margin-bottom: 5px; }
+        .stat-card div { font-size: 24px; font-weight: 700; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th { text-align: left; color: var(--text-muted); font-size: 13px; padding: 12px; font-weight: 600; }
+        td { padding: 15px 12px; border-top: 1px solid var(--border); font-size: 14px; }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+        }
+        .online { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .offline { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+
+        .actions button {
+            background: none;
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 6px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: 0.2s;
+            margin-right: 5px;
+        }
+
+        .actions .ban-btn { color: var(--danger); border-color: rgba(239, 68, 68, 0.3); }
+        .actions .ban-btn:hover { background: var(--danger); color: white; }
+
+        .actions .msg-btn { color: var(--secondary); border-color: rgba(59, 130, 246, 0.3); }
+        .actions .msg-btn:hover { background: var(--secondary); color: white; }
+
+        #broadcast {
+            margin-top: 30px;
+            background: rgba(255,255,255,0.02);
+            padding: 20px;
+            border-radius: 16px;
+            border: 1px solid var(--border);
+        }
+
+        textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.2);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            color: white;
+            margin: 10px 0;
+            resize: none;
+        }
+
+        .send-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+    </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+</head>
+<body>
+
+<div class="dashboard">
+    <header>
+        <h1>vesshy pv | Control Center</h1>
+        <div id="connection-status" class="status-badge online">Połączono z bazą</div>
+    </header>
+
+    <div class="stats">
+        <div class="stat-card">
+            <span>Zalogowani</span>
+            <div id="user-count">0</div>
+        </div>
+        <div class="stat-card">
+            <span>Aktywne sesje</span>
+            <div id="active-sessions">0</div>
+        </div>
+    </div>
+
+    <h3>Użytkownicy w czasie rzeczywistym</h3>
+    <table id="user-table">
+        <thead>
+            <tr>
+                <th>IMIĘ I NAZWISKO</th>
+                <th>STATUS</th>
+                <th>OSTATNIA AKTYWNOŚĆ</th>
+                <th>AKCJE</th>
+            </tr>
+        </thead>
+        <tbody id="user-list">
+            <!-- Dane renderowane przez JS -->
+        </tbody>
+    </table>
+
+    <div id="broadcast">
+        <h3>Wyślij komunikat do wszystkich</h3>
+        <textarea id="msg-text" placeholder="Treść wiadomości..."></textarea>
+        <button class="send-btn" onclick="sendBroadcast()">Wyślij ogłoszenie</button>
+    </div>
+</div>
+
+<script>
+    // Twoja konfiguracja Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBaPHJSgHSBlT503b6EJxvgdeFJ2sxUuoY",
+      authDomain: "obywatel-polski.firebaseapp.com",
+      projectId: "obywatel-polski",
+      storageBucket: "obywatel-polski.firebasestorage.app",
+      messagingSenderId: "146396600602",
+      appId: "1:146396600602:web:cd845989d2a6bfade034a3",
+      measurementId: "G-2ZW2X21493"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+
+    // Słuchanie zmian w tabeli użytkowników
+    db.collection("users").onSnapshot((snapshot) => {
+        const userList = document.getElementById('user-list');
+        const userCount = document.getElementById('user-count');
+        userList.innerHTML = '';
+        userCount.innerText = snapshot.size;
+
+        snapshot.forEach((doc) => {
+            const user = doc.data();
+            const row = document.createElement('tr');
+            
+            const lastSeen = user.lastSeen ? new Date(user.lastSeen).toLocaleTimeString() : 'Brak danych';
+            const isOnline = (Date.now() - user.lastSeen) < 30000; // Aktywny w ostatnich 30s
+
+            row.innerHTML = `
+                <td><strong>${user.name} ${user.surname}</strong></td>
+                <td><span class="status-badge ${isOnline ? 'online' : 'offline'}">${isOnline ? 'AKTYWNY' : 'NIEAKTYWNY'}</span></td>
+                <td>${lastSeen}</td>
+                <td class="actions">
+                    <button class="ban-btn" onclick="banUser('${doc.id}', '${user.name}')">ZBANUJ</button>
+                    <button class="msg-btn" onclick="directMessage('${doc.id}')">WIADOMOŚĆ</button>
+                </td>
+            `;
+            userList.appendChild(row);
+        });
+    });
+
+    async function banUser(uid, name) {
+        if(confirm(`Czy na pewno chcesz zablokować użytkownika ${name}?`)) {
+            await db.collection("banned").doc(uid).set({ banned: true, timestamp: Date.now() });
+            alert("Użytkownik zablokowany.");
+        }
+    }
+
+    async function sendBroadcast() {
+        const text = document.getElementById('msg-text').value;
+        if(!text) return;
+        
+        await db.collection("system").doc("broadcast").set({
+            text: text,
+            timestamp: Date.now()
+        });
+        
+        alert("Wysłano ogłoszenie!");
+        document.getElementById('msg-text').value = '';
+    }
+</script>
+
+</body>
+</html>

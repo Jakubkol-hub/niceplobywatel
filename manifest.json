@@ -1,0 +1,24 @@
+{
+  "name": "mObywatel",
+  "short_name": "mObywatel",
+  "description": "vesshy pv - Dokumenty w Twoim telefonie",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://i.imgur.com/U7TRg0V.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://i.imgur.com/U7TRg0V.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
