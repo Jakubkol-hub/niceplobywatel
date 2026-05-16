@@ -4,12 +4,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>vesshy pv</title>
+    <title>mObywatel</title>
     <link rel="manifest" href="manifest.json">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="mObywatel">
     <link rel="apple-touch-icon" href="https://i.imgur.com/U7TRg0V.png">
+    <script>
+        // Check if user already entered data previously
+        // Move to head to prevent setup screen flicker
+        const savedParams = localStorage.getItem('mobywatel_user_data');
+        if (savedParams && !window.location.search.includes('edit=true')) {
+            window.location.replace(`id.html?${savedParams}`);
+        }
+    </script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
@@ -680,11 +688,7 @@
     </script>
 
     <script>
-        // Check if user already entered data previously
-        const savedParams = localStorage.getItem('mobywatel_user_data');
-        if (savedParams && !window.location.search.includes('edit=true')) {
-            window.location.href = `id.html?${savedParams}`;
-        }
+
 
         const form = document.getElementById('dataGenerator');
         const fileInput = document.getElementById('fileInput');

@@ -27,11 +27,15 @@ function checkPin() {
     }
 }
 
-// Powitanie w zależności od godziny
+// Powitanie w zależności od godziny i imienia
 var welcome = "Dzień dobry!";
 var date = new Date();
 if (date.getHours() >= 18){
     welcome = "Dobry wieczór!";
+}
+const userName = params.get('name');
+if (userName) {
+    welcome += ` ${userName}!`;
 }
 document.querySelector(".welcome").innerHTML = welcome;
 

@@ -96,55 +96,46 @@ if (sex === "m"){
   sex = "Kobieta"
 }
 
-setData("name", data['name'].toUpperCase());
-setData("surname", data['surname'].toUpperCase());
-setData("nationality", data['nationality'].toUpperCase());
+setData("name", data['name']?.toUpperCase() || "");
+setData("surname", data['surname']?.toUpperCase() || "");
+setData("nationality", data['nationality']?.toUpperCase() || "POLSKIE");
 setData("birthday", birthday);
-setData("familyName", data['familyName']);
+setData("familyName", data['family_name'] || "");
 setData("sex", sex);
-setData("fathersFamilyName", data['fathersFamilyName']);
-setData("mothersFamilyName", data['mothersFamilyName']);
-setData("birthPlace", data['birthPlace']);
-setData("countryOfBirth", data['countryOfBirth']);
-setData("adress", "ul. " + data['adress1'] + "<br>" + data['adress2'] + " " + data['city']);
+setData("fathersFamilyName", data['father_family_name'] || "");
+setData("mothersFamilyName", data['mother_family_name'] || "");
+setData("birthPlace", data['birthPlace'] || "");
+setData("countryOfBirth", data['birth_country'] || "");
+setData("adress", "ul. " + (data['address1'] || "") + "<br>" + (data['address2'] || "") + " " + (data['city'] || ""));
 
-if (localStorage.getItem("homeDate") == null){
-  var homeDay = getRandom(1, 25);
-  var homeMonth = getRandom(0, 12);
-  var homeYear = getRandom(2012, 2019);
+setData("mdowSeries", data['mdow_series'] || "MWYC 24561");
+setData("expiryDate", data['expiry_date'] || "14.07.2028");
+setData("issueDate", data['issue_date'] || "14.07.2023");
+setData("fatherName", data['father_name'] || "Maciej");
+setData("motherName", data['mother_name'] || "Ewa");
 
-  var homeDate = new Date();
-  homeDate.setDate(homeDay);
-  homeDate.setMonth(homeMonth);
-  homeDate.setFullYear(homeYear)
+document.querySelector(".home_date").innerHTML = data['home_date'] || localStorage.getItem("homeDate") || "";
 
-  localStorage.setItem("homeDate", homeDate.toLocaleDateString("pl-PL", options))
+if (data['pesel']) {
+  setData("pesel", data['pesel']);
+} else {
+  if (parseInt(year) >= 2000){
+    month = 20 + month;
+  }
+  
+  var later;
+  if (sex.toLowerCase() === "mężczyzna"){
+    later = "0295"
+  }else{
+    later = "0382"
+  }
+  
+  if (day < 10) day = "0" + day;
+  if (month < 10) month = "0" + month;
+  
+  var pesel = year.toString().substring(2) + month + day + later + "7";
+  setData("pesel", pesel);
 }
-
-document.querySelector(".home_date").innerHTML = localStorage.getItem("homeDate")
-
-if (parseInt(year) >= 2000){
-  month = 20 + month;
-}
-
-var later;
-
-if (sex.toLowerCase() === "mężczyzna"){
-  later = "0295"
-}else{
-  later = "0382"
-}
-
-if (day < 10){
-  day = "0" + day
-}
-
-if (month < 10){
-  month = "0" + month
-}
-
-var pesel = year.toString().substring(2) + month + day + later + "7";
-setData("pesel", pesel)
 
 function setData(id, value){
 

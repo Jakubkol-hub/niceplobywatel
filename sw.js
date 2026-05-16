@@ -12,12 +12,18 @@ const ASSETS = [
   './scanqr.html',
   './showqr.html',
   './shortcuts.html',
+  './admin.html',
   './assets/main.css',
+  './assets/id.css',
+  './assets/home.css',
+  './assets/card.css',
   './assets/bar.js',
   './assets/home.js',
   './assets/id.js',
   './assets/card.js',
-  './manifest.json'
+  './assets/manifest.js',
+  './manifest.json',
+  './IMG_4756.png'
 ];
 
 // Install Event - Cache all assets
