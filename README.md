@@ -1,25 +1,2 @@
-Uwaga! Ten projekt służy jedynie jako pamiątka kolekcjonerska. Dawanie linku bez zgody właściciela jest zabronione.
-
-https://jatrogzzobywatel.github.io/JatrogzzObywatel-Z-KODEM-QR/
-https://jatrogzzobywatel.github.io/JatrogzzObywatel-Z-KODEM-QR/
-https://jatrogzzobywatel.github.io/JatrogzzObywatel-Z-KODEM-QR/
-https://jatrogzzobywatel.github.io/JatrogzzObywatel-Z-KODEM-QR/
-https://jatrogzzobywatel.github.io/JatrogzzObywatel-Z-KODEM-QR/
-https://jatrogzzobywatel.github.io/JatrogzzObywatel-Z-KODEM-QR/
-
-
-Instrukcja zainstalowania:
-
-Dla systemu IOS:
-Upewnij się, że używasz przeglądarki Safari
-Uzupełnij dane i kliknij wejdź
-Naciśji udostępnij -> Do Ekranu głównego
-
-
-Dla systemu Android:
-Upewnij się, że używasz przeglądarki google lub chrome
-Uzupełnij dane i kliknij wejdź
-Naciśji 3 kropki -> Dodaj do ekranu głównego
-
-
-Miłego chlania i jarania i dużo jebania.
+ogl to aktualizacja starej wersji jesli ktos chce to bym prosil o pisanie o dostep do vesshy na dc nie ma zadnych skryptow sledzacych jak w przypadku innych projektow na githubie.
+CAŁY PROJEKT JEST TYLKO DLA CELÓW EDUKACYJNYCH.
