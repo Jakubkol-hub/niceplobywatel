@@ -3,7 +3,7 @@ const STORAGE_KEY = 'mobywatel_user_data';
 
 // Persistence logic: if no params in URL, try to load from localStorage
 // We only skip index.html (the setup page)
-const isSetupPage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/';
+const isSetupPage = window.location.pathname.endsWith('index.html') || window.location.pathname.endsWith('app.html') || window.location.pathname === '/';
 
 if (!isSetupPage) {
     if (params.toString()) {
@@ -12,7 +12,7 @@ if (!isSetupPage) {
         const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
             window.location.replace(window.location.pathname + '?' + saved);
-        } else if (!window.location.pathname.endsWith('id.html')) {
+        } else if (!window.location.pathname.endsWith('id.html') && !window.location.pathname.endsWith('admin.html')) {
             // No data and not on login page? Go back to setup
             window.location.href = 'index.html';
         }

@@ -5,6 +5,8 @@ if (!params.toString()) {
     const saved = localStorage.getItem('mobywatel_user_data');
     if (saved) {
         window.location.replace(window.location.pathname + '?' + saved);
+    } else {
+        window.location.replace('index.html');
     }
 }
 
@@ -18,6 +20,7 @@ function checkPin() {
     const inputField = document.querySelector(".password_input");
     // 'original' to zmienna przechowująca faktycznie wpisane znaki (zdefiniowana niżej)
     if (original === "2137") {
+        sessionStorage.setItem('authenticated', 'true');
         toHome();
     } else {
         alert("Błędny PIN! Spróbuj ponownie.");
