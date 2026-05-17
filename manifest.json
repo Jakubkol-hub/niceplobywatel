@@ -1,25 +1,21 @@
 {
-  "name": "mObywatel",
+  "name": "mObywatel (mdowodzik)",
   "short_name": "mObywatel",
-  "description": "vesshy pv - Dokumenty w Twoim telefonie",
-  "start_url": "./index.html",
-  "scope": "./",
+  "description": "Digital identification app recreation.",
+  "start_url": "./id.html",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#0f172a",
-  "orientation": "portrait",
+  "background_color": "#f5f6fb",
+  "theme_color": "#f5f6fb",
   "icons": [
     {
-      "src": "https://i.imgur.com/U7TRg0V.png",
+      "src": "images/app-icon.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
-      "src": "https://i.imgur.com/U7TRg0V.png",
+      "src": "images/app-icon.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     }
   ]
 }

@@ -1,18 +1,18 @@
 
 var confirmElement = document.querySelector(".confirm");
 
-function closePage(){
+function closePage() {
   clearClassList();
 }
 
-function openPage(page){
+function openPage(page) {
   clearClassList();
   var classList = confirmElement.classList;
   classList.add("page_open");
   classList.add("page_" + page + "_open");
 }
 
-function clearClassList(){
+function clearClassList() {
   var classList = confirmElement.classList;
   classList.remove("page_open");
   classList.remove("page_1_open");
@@ -21,11 +21,10 @@ function clearClassList(){
 }
 
 var time = document.getElementById("time");
-var options = { year: 'numeric', month: 'numeric', day: '2-digit' };
-var optionsTime = { second: 'numeric', minute: 'numeric', hour: '2-digit' };
+var options = { year: 'numeric', month: 'numeric', day: 'numeric' };
 
-if (localStorage.getItem("update") == null){
-  localStorage.setItem("update", "21.05.2025")
+if (localStorage.getItem("update") == null) {
+  localStorage.setItem("update", "24.12.2024")
 }
 
 var date = new Date();
@@ -43,24 +42,24 @@ update.addEventListener('click', () => {
 });
 
 function delay(time) {
-    return new Promise(resolve => setTimeout(resolve, time));
+  return new Promise(resolve => setTimeout(resolve, time));
 }
 
 setClock();
-function setClock(){
-    date = new Date();
-    time.innerHTML = "Czas: " + date.toLocaleTimeString("pl-PL", optionsTime) + " " + date.toLocaleDateString("pl-PL", options);    
-    delay(1000).then(() => {
-        setClock();
-    })
+function setClock() {
+  date = new Date()
+  time.innerHTML = "Czas: " + date.toLocaleTimeString() + " " + date.toLocaleDateString("pl-PL", options);
+  delay(1000).then(() => {
+    setClock();
+  })
 }
 
 var unfold = document.querySelector(".info_holder");
 unfold.addEventListener('click', () => {
 
-  if (unfold.classList.contains("unfolded")){
+  if (unfold.classList.contains("unfolded")) {
     unfold.classList.remove("unfolded");
-  }else{
+  } else {
     unfold.classList.add("unfolded");
   }
 
@@ -69,75 +68,118 @@ unfold.addEventListener('click', () => {
 var data = {}
 
 var params = new URLSearchParams(window.location.search);
-for (var key of params.keys()){
-  data[key] = params.get(key);
+
+// Fallback to localStorage if no params in URL
+if (params.toString() === "") {
+  var rawData = localStorage.getItem("persistentData");
+  if (rawData) {
+    try {
+      var savedData = JSON.parse(rawData);
+      data = {
+        sex: savedData.sex || "m",
+        image: "local",
+        birthday: (savedData.dates || []).join("."),
+        name: savedData.name || "",
+        surname: savedData.surname || "",
+        nationality: savedData.nationality || "",
+        familyName: savedData.familyName || "",
+        fathersFamilyName: savedData.fathersFamilyName || "",
+        mothersFamilyName: savedData.mothersFamilyName || "",
+        birthPlace: savedData.birthPlace || "",
+        countryOfBirth: savedData.countryOfBirth || "",
+        adress1: savedData.adress1 || "",
+        adress2: savedData.adress2 || "",
+        city: savedData.city || ""
+      };
+    } catch (e) {
+      console.error("Error loading data in card.js:", e);
+    }
+  }
+} else {
+  for (var key of params.keys()) {
+    data[key] = params.get(key);
+  }
 }
 
-document.querySelector(".id_own_image").style.backgroundImage = `url(${data['image']})`;
+var imageUrl = data['image'];
+if (imageUrl === "local" || !imageUrl) {
+  imageUrl = localStorage.getItem("uploadedImage");
+}
 
-var birthday = data['birthday'];
+document.querySelector(".id_own_image").style.backgroundImage = `url(${imageUrl})`;
+
+var birthday = data['birthday'] || "01.01.2000";
 var birthdaySplit = birthday.split(".");
-var day = parseInt(birthdaySplit[0]);
-var month = parseInt(birthdaySplit[1]);
-var year = parseInt(birthdaySplit[2]);
+var day = parseInt(birthdaySplit[0]) || 1;
+var month = parseInt(birthdaySplit[1]) || 1;
+var year = parseInt(birthdaySplit[2]) || 2000;
 
 var birthdayDate = new Date();
 birthdayDate.setDate(day)
-birthdayDate.setMonth(month-1)
+birthdayDate.setMonth(month - 1)
 birthdayDate.setFullYear(year)
 
 birthday = birthdayDate.toLocaleDateString("pl-PL", options);
 
-var sex = data['sex'];
+var sex = data['sex'] || "m";
 
-if (sex === "m"){
+if (sex === "m") {
   sex = "Mężczyzna"
-}else if (sex === "k"){
+} else if (sex === "k") {
   sex = "Kobieta"
 }
 
-setData("name", data['name']?.toUpperCase() || "");
-setData("surname", data['surname']?.toUpperCase() || "");
-setData("nationality", data['nationality']?.toUpperCase() || "POLSKIE");
+setData("name", (data['name'] || "").toUpperCase());
+setData("surname", (data['surname'] || "").toUpperCase());
+setData("nationality", (data['nationality'] || "").toUpperCase());
 setData("birthday", birthday);
-setData("familyName", data['family_name'] || "");
+setData("familyName", data['familyName'] || "");
 setData("sex", sex);
-setData("fathersFamilyName", data['father_family_name'] || "");
-setData("mothersFamilyName", data['mother_family_name'] || "");
+setData("fathersFamilyName", data['fathersFamilyName'] || "");
+setData("mothersFamilyName", data['mothersFamilyName'] || "");
 setData("birthPlace", data['birthPlace'] || "");
-setData("countryOfBirth", data['birth_country'] || "");
-setData("adress", "ul. " + (data['address1'] || "") + "<br>" + (data['address2'] || "") + " " + (data['city'] || ""));
+setData("countryOfBirth", data['countryOfBirth']);
+setData("adress", "ul. " + data['adress1'] + "<br>" + data['adress2'] + " " + data['city']);
 
-setData("mdowSeries", data['mdow_series'] || "MWYC 24561");
-setData("expiryDate", data['expiry_date'] || "14.07.2028");
-setData("issueDate", data['issue_date'] || "14.07.2023");
-setData("fatherName", data['father_name'] || "Maciej");
-setData("motherName", data['mother_name'] || "Ewa");
+if (localStorage.getItem("homeDate") == null) {
+  var homeDay = getRandom(1, 25);
+  var homeMonth = getRandom(0, 12);
+  var homeYear = getRandom(2012, 2019);
 
-document.querySelector(".home_date").innerHTML = data['home_date'] || localStorage.getItem("homeDate") || "";
+  var homeDate = new Date();
+  homeDate.setDate(homeDay);
+  homeDate.setMonth(homeMonth);
+  homeDate.setFullYear(homeYear)
 
-if (data['pesel']) {
-  setData("pesel", data['pesel']);
-} else {
-  if (parseInt(year) >= 2000){
-    month = 20 + month;
-  }
-  
-  var later;
-  if (sex.toLowerCase() === "mężczyzna"){
-    later = "0295"
-  }else{
-    later = "0382"
-  }
-  
-  if (day < 10) day = "0" + day;
-  if (month < 10) month = "0" + month;
-  
-  var pesel = year.toString().substring(2) + month + day + later + "7";
-  setData("pesel", pesel);
+  localStorage.setItem("homeDate", homeDate.toLocaleDateString("pl-PL", options))
 }
 
-function setData(id, value){
+document.querySelector(".home_date").innerHTML = localStorage.getItem("homeDate")
+
+if (parseInt(year) >= 2000) {
+  month = 20 + month;
+}
+
+var later;
+
+if (sex.toLowerCase() === "mężczyzna") {
+  later = "0295"
+} else {
+  later = "0382"
+}
+
+if (day < 10) {
+  day = "0" + day
+}
+
+if (month < 10) {
+  month = "0" + month
+}
+
+var pesel = year.toString().substring(2) + month + day + later + "7";
+setData("pesel", pesel)
+
+function setData(id, value) {
 
   document.getElementById(id).innerHTML = value;
 
@@ -146,23 +188,3 @@ function setData(id, value){
 function getRandom(min, max) {
   return parseInt(Math.random() * (max - min) + min);
 }
-
-// Activate bottom nav tab from query param ?tab=home|services|qr|more
-(function(){
-  try{
-    var tab = (new URLSearchParams(window.location.search).get('tab')||'home').toLowerCase();
-    var valid = ['home','services','qr','more'];
-    if (!valid.includes(tab)) tab = 'home';
-    var imgs = document.querySelectorAll('.bottom_element_image');
-    var texts = document.querySelectorAll('.bottom_element_text');
-    var openClasses = ['home_open','services_open','qr_open','more_open'];
-    imgs.forEach(function(img){ openClasses.forEach(c=>img.classList.remove(c)); });
-    texts.forEach(function(t){ t.classList.remove('open'); });
-    document.querySelectorAll('.bottom_element_grid').forEach(function(el){
-      var send = el.getAttribute('send');
-      var img = el.querySelector('.bottom_element_image');
-      var txt = el.querySelector('.bottom_element_text');
-      if (send===tab){ if(img) img.classList.add(tab+'_open'); if(txt) txt.classList.add('open'); }
-    });
-  }catch(e){}
-})();

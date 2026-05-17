@@ -1,42 +1,26 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
 
-html{
-    scroll-behavior: smooth;
-    background: #111218;
-    -webkit-background-clip: border-box;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
 :root{
-    --home: url('https://i.imgur.com/IpITRfg.png');
-    --home-open: url('https://i.imgur.com/ji8YOOr.png');
-    --services: url('https://i.imgur.com/ck28bKp.png');
-    --services-open: url('https://i.imgur.com/tYOZsid.png');
-    --qr: url('https://i.imgur.com/uvu5eLo.png');
-    --qr-open: url('https://i.imgur.com/YJGX3eL.png');
-    --more: url('https://i.imgur.com/eNy4kUx.png');
-    --more-open: url('https://i.imgur.com/sLfN9li.png');
-    --text: #4aa2fc;
-    --font: #ffffff;
-    --font2: black;
-    --background: #111218;
-    --background2: #1f2326;
+    --home: url('https://i.imgur.com/2dhn83I.png');
+    --home-open: url('https://i.imgur.com/snRZd8Y.png');
+    --documents: url('https://i.imgur.com/lZtlC1m.png');
+    --documents-open: url('https://i.imgur.com/IsGxaKU.png');
+    --services: url('https://i.imgur.com/7isZVH1.png');
+    --services-open: url('https://i.imgur.com/VfJjlqg.png');
+    --qr: url('https://i.imgur.com/ZWhsWUD.png');
+    --qr-open: url('https://i.imgur.com/IN7owEB.png');
+    --more: url('https://i.imgur.com/1Bg8T7m.png');
+    --more-open: url('https://i.imgur.com/ESjnL7k.png');
+    --text: #024b97;
+    --shadow: 0px 0px 10px rgb(224, 224, 224);
 }
 
 body{
-    background-color: #111218;
-    padding-top: env(safe-area-inset-top);
-    padding-bottom: calc(110px + env(safe-area-inset-bottom));
+    background-color: #f5f6fb;
 }
 
 p, input{
     font-family: "Poppins", sans-serif;
-    color: white;
 }
 
 *{
@@ -59,12 +43,12 @@ p, input{
 }
 
 .main_button{
-    color: #4ba4fe;
-    background-color: #0a294c;
+    color: #014a93;
+    background-color: #dbeaf9;
     width: max-content;
-    padding-left: 18px;
-    padding-right: 18px;
-    font-size: 16px;
+    padding-left: 15px;
+    padding-right: 15px;
+    font-size: 14px;
     font-weight: 600;
     height: 32px;
     margin-top: auto;
@@ -77,16 +61,16 @@ p, input{
 
 .bottom_element_image{
     pointer-events: none;
-    width: 32px;
-    background-position: center;
-    background-size: 90%;
-    background-repeat: no-repeat;
-    height: 35px;
+    width: 28px;
+    height: 28px;
     margin-left: auto;
     margin-right: auto;
     margin-top: auto;
     margin-bottom: auto;
+    background-position: center;
+    background-size: 100%;
 }
+
 .home{
     background-image: var(--home);
 }
@@ -128,7 +112,7 @@ p, input{
 }
 
 .bottom_element_grid{
-    margin-top: 3px;
+    margin-top: 5px;
     margin-left: auto;
     margin-right: auto;
     grid-template-columns: 100%;
@@ -140,33 +124,29 @@ p, input{
 
 .bottom_element_text{
     margin-top: 0;
-    font-size: 13px;
-    color: white;
-    font-weight: 500;
-    margin-top: 3px;
+    font-size: 11px;
+    color: black;
+    font-weight: 400;
     text-align: center;
 }
 
 .bottom_bar_grid{
     display: grid;
-    grid-template-columns: repeat(4, calc(100% / 4));
+    grid-template-columns: repeat(5, calc(100% / 5));
     height: 100%;
-    margin-top: 8px;
+    margin-top: 4px;
     width: 100%;
 }
+
 .bottom_bar{
     position: fixed;
-    background-color: var(--background2);
-    border-top: var(--background2);
+    background-color: #f5f6fb;
+    border-top: 0.1px solid rgb(189, 189, 189);
     bottom: 0;
     left: 0;
     width: 100%;
-    height: 110px;
+    height: 100px;
     z-index: 1;
-}
-
-@supports (height: 100svh) {
-  .container { min-height: 100svh; }
 }
 
 .open{
@@ -205,7 +185,7 @@ p, input{
     grid-auto-flow: row;
     grid-auto-rows: max-content;
     background-color: white;
-    border-radius: 19px;
+    border-radius: 10px;
 }
 
 .service{

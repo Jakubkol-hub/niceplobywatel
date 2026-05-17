@@ -1,66 +1,56 @@
-const CACHE_NAME = 'mobywatel-cache-v2';
-const ASSETS = [
-  './',
-  './index.html',
-  './home.html',
-  './id.html',
-  './card.html',
-  './services.html',
-  './qr.html',
-  './more.html',
-  './pesel.html',
-  './scanqr.html',
-  './showqr.html',
-  './shortcuts.html',
-  './admin.html',
-  './assets/main.css',
-  './assets/id.css',
-  './assets/home.css',
-  './assets/card.css',
-  './assets/bar.js',
-  './assets/home.js',
-  './assets/id.js',
-  './assets/card.js',
-  './assets/manifest.js',
-  './manifest.json',
-  './IMG_4756.png'
+const CACHE_NAME = 'mobywatel-cache-v4';
+const ASSETS_TO_CACHE = [
+    './',
+    'index.html',
+    'home.html',
+    'card.html',
+    'documents.html',
+    'id.html',
+    'more.html',
+    'qr.html',
+    'services.html',
+    'assets/index.css',
+    'assets/index.js',
+    'assets/card.js',
+    'assets/bar.js',
+    'assets/id.js',
+    'assets/home.css',
+    'assets/qr.css',
+    'assets/main.css',
+    'assets/more.css',
+    'images/app-icon.png',
+    'manifest.json'
 ];
 
-// Install Event - Cache all assets
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS);
-    })
-  );
-  self.skipWaiting();
+    self.skipWaiting();
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                return cache.addAll(ASSETS_TO_CACHE);
+            })
+    );
 });
 
-// Activate Event - Clean up old caches
 self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter(key => key !== CACHE_NAME).map(key => caches.delete(key))
-      );
-    })
-  );
+    event.waitUntil(
+        caches.keys().then((cacheNames) => {
+            return Promise.all(
+                cacheNames.map((cacheName) => {
+                    if (cacheName !== CACHE_NAME) {
+                        return caches.delete(cacheName);
+                    }
+                })
+            );
+        }).then(() => self.clients.claim())
+    );
 });
 
-// Fetch Event - Stale-While-Revalidate strategy
-// Return from cache immediately, but fetch from network to update cache in background
 self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-
-  event.respondWith(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.match(event.request).then((cachedResponse) => {
-        const fetchPromise = fetch(event.request).then((networkResponse) => {
-          cache.put(event.request, networkResponse.clone());
-          return networkResponse;
-        });
-        return cachedResponse || fetchPromise;
-      });
-    })
-  );
+    event.respondWith(
+        caches.match(event.request)
+            .then((response) => {
+                return response || fetch(event.request);
+            })
+    );
 });

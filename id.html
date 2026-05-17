@@ -1,42 +1,32 @@
-<!DOCTYPE html>
-<html lang="pl">
-
 <head>
     <title>mObywatel</title>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="assets/id.css?v=1.5">
     <link rel="stylesheet" href="assets/main.css">
-    <link rel="icon" type="image/x-icon" href="https://i.imgur.com/U7TRg0V.png">
-    <link rel="apple-touch-icon" href="https://i.imgur.com/U7TRg0V.png">
-    <link rel="shortcut icon" href="https://i.imgur.com/U7TRg0V.png">
     <link rel="manifest" href="manifest.json">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#121212">
-
+    <link rel="icon" type="image/x-icon" href="images/app-icon.png">
+    <link rel="apple-touch-icon" href="images/app-icon.png">
+    <link rel="shortcut icon" href="images/app-icon.png">
     <meta name="format-detection" content="telephone=no">
     <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
-
     <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 
 <body>
     <div class="background"></div>
     <div class="top_grid">
-        <img class="logo" src="https://i.imgur.com/30pODeI.png" alt="Orzeł">
+        <img class="logo" src="images/Orzelek.png">
         <p class="logo_text">mObywatel</p>
     </div>
     <div class="top_text">
-        <p class="welcome" id="welcome-msg">Dzień dobry!</p>
+        <p class="welcome"></p>
         <p class="login_text">Zaloguj się do aplikacji.</p>
     </div>
     <div class="password_box">
         <div class="password_grid">
             <p class="password_text">Hasło</p>
             <div class="input_holder">
-                <input type="password" class="password_input" id="pwd" autocomplete="off">
+                <input class="password_input">
                 <div class="eye"></div>
             </div>
             <p class="forgot_password">Nie pamiętasz hasła?</p>
@@ -44,22 +34,21 @@
     </div>
     <div class="bottom">
         <p class="login">Zaloguj się</p>
-
         <div class="data">
-            <img class="logo_other" src="IMG_4756.png">
-        </div>
-        <div>
-            <p class="version" style="text-align: center;">wersja 4.71.0 (5323)</p>
+            <img class="logo_other" style="height: 20px;" src="images/COI.png">
+            <img class="logo_other" src="images/mc.svg">
+            <p class="version">wersja 4.52.0 (13)</p>
         </div>
     </div>
-
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
-    <script src="assets/firebase-logic.js"></script>
-    
-    <script src="assets/id.js?v=1.1"></script>
-    <script src="assets/manifest.js"></script>
+    <script src="assets/nosleep.js"></script>
+    <script src="assets/id.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('Service Worker registered', reg))
+                    .catch(err => console.log('Service Worker registration failed', err));
+            });
+        }
+    </script>
 </body>
-
-</html>
