@@ -1,4 +1,4 @@
-const CACHE_NAME = 'mobywatel-cache-v4';
+const CACHE_NAME = 'mobywatel-cache-v7';
 const ASSETS_TO_CACHE = [
     './',
     'index.html',

@@ -1,10 +1,13 @@
 <head>
     <meta charset="UTF-8">
-    <link rel="stylesheet" href="assets/index.css">
+    <link rel="stylesheet" href="assets/index.css?v=2.3">
     <link rel="manifest" href="manifest.json">
     <link rel="icon" type="image/x-icon" href="images/app-icon.png">
-    <title>mObywatel</title>
-    <meta name="viewport" content="width=device-width, initial-scale=0.8, user-scalable=no">
+    <title>vesshy project 2.1</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
     <script>
         // Immediate redirect if already set up
         (function () {
@@ -41,39 +44,47 @@
 </head>
 
 <body>
-    <img src="https://i.imgur.com/Xv3WGEu.png" class="logo">
-    <p class="logo_text">Mdowodzik</p><br><br>
+    <div class="form_container">
+        <div class="header_branding">
+            <img src="https://i.imgur.com/Xv3WGEu.png" class="logo" alt="Logo">
+            <p class="logo_text">vesshy project 2.1</p>
+            <p class="logo_subtitle">Kreator Profilu</p>
+        </div>
 
-    <div class="guide_holder">
-        <div class="top_holder">
-            <p class="guide_title">Instrukcja</p>
-            <img class="arrow" src="https://i.imgur.com/WSWcFNB.png">
+        <div class="guide_holder">
+            <div class="top_holder">
+                <p class="guide_title">
+                    <svg class="guide_icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    Instrukcja instalacji
+                </p>
+                <img class="arrow" src="https://i.imgur.com/WSWcFNB.png">
+            </div>
+            <div class="guide_text">
+                <span class="guide_badge ios">Dla systemu iOS (Safari):</span>
+                <ul>
+                    <li>Upewnij się, że używasz przeglądarki Safari</li>
+                    <li>Uzupełnij dane i kliknij wejdź</li>
+                    <li>Naciśnij Udostępnij -> Do Ekranu głównego</li>
+                </ul>
+                <span class="guide_badge android">Dla systemu Android (Chrome):</span>
+                <ul>
+                    <li>Upewnij się, że używasz przeglądarki Chrome</li>
+                    <li>Uzupełnij dane i kliknij wejdź</li>
+                    <li>Naciśnij 3 kropki -> Dodaj do ekranu głównego</li>
+                </ul>
+            </div>
         </div>
-        <div class="guide_text">
-            <span style="font-size: 17px; font-weight: 500;">Dla systemu IOS:</span><br>
-            <ul>
-                <li>Upewnij się, że używasz przeglądarki Safari</li>
-                <li>Uzupełnij dane i kliknij wejdź</li>
-                <li>Naciśji udostępnij -> Do Ekranu głównego</li>
-            </ul>
-            <span style="font-size: 17px; font-weight: 500;">Dla systemu Android:</span>
-            <ul>
-                <li>Upewnij się, że używasz przeglądarki google lub chrome</li>
-                <li>Uzupełnij dane i kliknij wejdź</li>
-                <li>Naciśji 3 kropki -> Dodaj do ekranu głównego</li>
-            </ul>
-        </div>
-    </div>
 
-    <div class="upload">
-        <p class="error">To pole jest wymagane</p>
-        <img class="upload_uploaded">
-        <div class="upload_uploading"></div>
-        <div class="upload_grid">
-            <img class="upload_image" src="https://i.imgur.com/1lerane.png">
-            <p class="upload_text">Dodaj zdjęcie</p>
+        <div class="upload">
+            <p class="error">To pole jest wymagane</p>
+            <img class="upload_uploaded">
+            <div class="upload_uploading"></div>
+            <div class="upload_grid">
+                <img class="upload_image" src="https://i.imgur.com/1lerane.png">
+                <p class="upload_text">Dodaj zdjęcie do dowodu</p>
+                <span class="upload_hint">Kliknij, aby wybrać plik (JPG, PNG)</span>
+            </div>
         </div>
-    </div>
 
     <div class="input_holder">
         <input type="text" id="name" class="input" placeholder="">
@@ -176,11 +187,6 @@
     </div>
 
     <a class="go">wejdź</a>
-    <div class="discord" onclick="window.open('https://discord.gg/2YyKxGpRDN')">
-        <div class="inner_grid">
-            <img class="discord_image" src="https://i.imgur.com/xcYtB71.png">
-            <p class="discord_text">Dołącz do naszego discorda</p>
-        </div>
     </div>
 
     <script src="assets/nosleep.js"></script>
